@@ -2,3 +2,6 @@
 lex.yy.c
 test.src
 foundation
+src/parser.h
+src/parser.c
+src/parser.output

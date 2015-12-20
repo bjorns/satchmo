@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "lexer.h"
+extern FILE *yyin;
+
+void parse(FILE*);
 
 int main(int argc, char** argv) {
     if (argc < 2) {
