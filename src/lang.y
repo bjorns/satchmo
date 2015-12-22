@@ -17,6 +17,7 @@ int yylex();
     expr_t *expr;
 
     op_t op;
+    var_t id;
     number_t number;
 }
 
@@ -24,20 +25,54 @@ int yylex();
 
 %token	<number> T_NUMBER
 %token  <op> T_OP
+%token  T_EQ
+%token <id> T_ID
+%token T_NEWLINE
+%token T_LPAREN
+%token T_RPAREN
+%token T_COMMA
 
 %left T_OP
-%type	<expr>	EXPR
+%type	<expr>	expression
 
 
 %%
 
-input:  /* empty */
-	    | EXPR { printf("Result: %d\n", $1); }
-		;
-
-EXPR:   T_NUMBER { $$ = $1 }
-        | EXPR T_OP EXPR { $$ = compound_expr($2, $1, $3) }
+input:  module
         ;
+
+module: statement_list
+        ;
+
+statement_list: /* empty */
+        | statement
+        | statement statement_list
+        ;
+
+statement: expression T_NEWLINE { printf("End statement.\n"); }
+        | assignment T_NEWLINE
+        ;
+
+assignment: lval T_EQ expression T_NEWLINE
+        ;
+
+lval:   T_ID
+        ;
+
+expression:   T_NUMBER { $$ = $1 }
+        | expression T_OP expression { $$ = compound_expr($2, $1, $3) }
+        | funcall
+        ;
+
+funcall: T_ID T_LPAREN arg_list T_RPAREN
+        ;
+
+arg_list: /* empty */
+        | argument
+        | argument T_COMMA arg_list
+        ;
+
+argument:   expression
 
 %%
 

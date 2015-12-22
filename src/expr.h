@@ -10,6 +10,10 @@ typedef enum {
     DIV
 } op_t;
 
+typedef struct {
+    char* name;
+} var_t;
+
 struct comp_expr {
     struct expr *left;
     op_t operator;

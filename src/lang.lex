@@ -6,7 +6,12 @@
 T_NUMBER [0-9]+\.?[0-9]*
 T_ID [a-z][a-z0-9_]*
 T_OP [+\-]
+T_EQ \=
 T_NEWLINE \n
+T_LPAREN (
+T_RPAREN )
+T_COMMA ,
+
 %%
 
 
@@ -29,11 +34,12 @@ T_NEWLINE \n
 
 {T_NEWLINE}  {
     printf("New line...\n");
+    return T_NEWLINE;
 }
 
 [ \t]+
 %%
 
 int yywrap() {
-    printf("Wrapping!\n");
+    printf("End of program\n");
 }
