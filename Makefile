@@ -26,5 +26,5 @@ $(TARGET): $(OBJ) lex.yy.o parser.o
 clean:
 	rm -f *.o
 	rm -f src/lex.yy.c
-	rm -f src/parser.c src/parser.h
+	rm -f src/parser.c src/parser.h src/parser.output
 	rm -f $(TARGET)

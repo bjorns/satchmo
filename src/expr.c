@@ -40,3 +40,10 @@ expr_t *compound_expr(op_t op, expr_t *left, expr_t *right) {
 
     return ret;
 }
+
+funcall_t *create_funcall(char* name, arg_t *args) {
+    funcall_t *ret = (funcall_t*)malloc(sizeof(funcall_t));
+    ret->name = name;
+    ret->args = args;
+    return ret;
+}

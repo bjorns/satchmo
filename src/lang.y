@@ -31,9 +31,10 @@ int yylex();
 %token T_LPAREN
 %token T_RPAREN
 %token T_COMMA
+%token T_COMMENT
 
 %left T_OP
-%type	<expr>	expression
+%type <expr>	expression
 
 
 %%
@@ -47,6 +48,7 @@ module: statement_list
 statement_list: /* empty */
         | statement
         | statement statement_list
+        | comment statement_list
         ;
 
 statement: expression T_NEWLINE { printf("End statement.\n"); }
@@ -73,6 +75,9 @@ arg_list: /* empty */
         ;
 
 argument:   expression
+
+comment: T_COMMENT T_NEWLINE
+        ;
 
 %%
 

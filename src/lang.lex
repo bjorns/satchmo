@@ -11,6 +11,7 @@ T_NEWLINE \n
 T_LPAREN (
 T_RPAREN )
 T_COMMA ,
+T_COMMENT #[^\n]+
 
 %%
 
@@ -37,9 +38,15 @@ T_COMMA ,
     return T_NEWLINE;
 }
 
+{T_COMMENT} {
+    printf("Comment \"%s\" at line %d\n", yytext, yylineno);
+    return T_COMMENT;
+}
+
 [ \t]+
 %%
 
 int yywrap() {
     printf("End of program\n");
+    return 1;
 }

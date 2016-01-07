@@ -31,6 +31,13 @@ typedef struct {
     void* expr;
 } expr_t;
 
+typedef expr_t arg_t;
+
+typedef struct {
+    char *name;
+    arg_t *args;
+} funcall_t;
+
 number_t parse_number(const char*);
 op_t     parse_operator(const char*);
 expr_t  *expr_leaf(number_t value);
