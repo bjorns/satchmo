@@ -3,8 +3,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#include "token.h"
 #include "expr.h"
-
+#include "stmt.h"
 
 extern FILE *yyin;
 
@@ -13,12 +14,18 @@ int yylex();
 
 %}
 
-%union{
+%union {
+    op_t op;
+    var_t *var;
+    lval_t *lval;
+    number_t number;
+
+    arglist_t *arglist;
+    funcall_t *funcall;
     expr_t *expr;
 
-    op_t op;
-    var_t id;
-    number_t number;
+    asign_t *asign;
+    stmt_t *stmt;
 }
 
 %start  input
@@ -26,7 +33,7 @@ int yylex();
 %token	<number> T_NUMBER
 %token  <op> T_OP
 %token  T_EQ
-%token <id> T_ID
+%token <var> T_VAR
 %token T_NEWLINE
 %token T_LPAREN
 %token T_RPAREN
@@ -34,8 +41,12 @@ int yylex();
 %token T_COMMENT
 
 %left T_OP
-%type <expr>	expression
 
+%type <lval>    left_val
+%type <expr>	expression
+%type <arglist> argument_list
+%type <asign>	assignment
+%type <funcall> function_call
 
 %%
 
@@ -52,29 +63,28 @@ statement_list: /* empty */
         ;
 
 statement: expression T_NEWLINE { printf("End statement.\n"); }
-        | assignment T_NEWLINE
+        | assignment T_NEWLINE { printf("Assignment statement.\n"); }
         ;
 
-assignment: lval T_EQ expression T_NEWLINE
+assignment: left_val T_EQ expression { $$ = new_assignment($1, $3); }
         ;
 
-lval:   T_ID
+left_val:   T_VAR { $$ = new_lval($1); }
         ;
 
-expression:   T_NUMBER { $$ = $1 }
+expression: T_NUMBER { $$ = new_immediate_expr($1) }
+        | T_VAR { $$ = new_direct_expr($1) }
         | expression T_OP expression { $$ = compound_expr($2, $1, $3) }
-        | funcall
+        | function_call              { $$ = new_funcall_expr($1); }
         ;
 
-funcall: T_ID T_LPAREN arg_list T_RPAREN
+function_call: T_VAR T_LPAREN argument_list T_RPAREN { $$ = new_funcall($1, $3); }
         ;
 
-arg_list: /* empty */
-        | argument
-        | argument T_COMMA arg_list
+argument_list: /* empty */
+        | expression { $$ = new_arglist($1); }
+        | argument_list T_COMMA expression { $$ = compound_arglist($1, $3); }
         ;
-
-argument:   expression
 
 comment: T_COMMENT T_NEWLINE
         ;
