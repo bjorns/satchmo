@@ -9,11 +9,14 @@ SRC+=src/token.c
 
 TARGET=foundation
 
-OBJ=$(patsubst src/%.c,%.o,$(SRC))
+OBJ=$(patsubst src/%.c,bin/%.o,$(SRC))
 
 all: $(TARGET)
 
-%.o: src/%.c
+bin:
+	mkdir -p $@
+
+bin/%.o: src/%.c bin
 	$(CC) $(CC_OPTS) -c -o $@ $<
 
 src/lex.yy.c: src/lang.lex src/parser.c
@@ -22,11 +25,11 @@ src/lex.yy.c: src/lang.lex src/parser.c
 src/parser.c: src/lang.y
 	bison -d -v -o $@ $<
 
-$(TARGET): $(OBJ) lex.yy.o parser.o
+$(TARGET): $(OBJ) bin/lex.yy.o bin/parser.o
 	$(CC) $(CC_OPTS) -o foundation $^
 
 clean:
-	rm -f *.o
+	rm -rf bin/
 	rm -f src/lex.yy.c
 	rm -f src/parser.c src/parser.h src/parser.output
 	rm -f $(TARGET)
