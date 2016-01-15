@@ -2,6 +2,7 @@
     #include "token.h"
     #include "expr.h"
     #include "stmt.h"
+    #include "module.h"
     #include "parser.h"
 %}
 

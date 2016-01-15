@@ -6,8 +6,10 @@ SRC+=src/main.c
 SRC+=src/expr.c
 SRC+=src/stmt.c
 SRC+=src/token.c
+SRC+=src/exec.c
+SRC+=src/module.c
 
-TARGET=foundation
+TARGET=satchmo
 
 OBJ=$(patsubst src/%.c,bin/%.o,$(SRC))
 
@@ -26,7 +28,7 @@ src/parser.c: src/lang.y
 	bison -d -v -o $@ $<
 
 $(TARGET): $(OBJ) bin/lex.yy.o bin/parser.o
-	$(CC) $(CC_OPTS) -o foundation $^
+	$(CC) $(CC_OPTS) -o $@ $^
 
 clean:
 	rm -rf bin/

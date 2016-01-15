@@ -1,15 +1,24 @@
+#include <assert.h>
 #include <stdlib.h>
 
 #include "expr.h"
 #include "stmt.h"
 
+static const uint16_t INIT_SIZE = 32;
+
+stmt_t *new_statement(expr_t *expr) {
+    stmt_t *ret = (stmt_t*)calloc(1, sizeof(stmt_t));
+    ret->type = EXPR;
+    ret->data = (void*)expr;
+    return ret;
+}
 
 /**
  */
-stmt_t *new_asign_stmt(asign_t *asign) {
+stmt_t *new_asignment_stmt(asign_t *asign) {
     stmt_t *ret = (stmt_t*)malloc(sizeof(stmt_t));
     ret->type = ASIGN;
-    ret->stmt = (void*)asign;
+    ret->data = (void*)asign;
     return ret;
 }
 
@@ -18,4 +27,21 @@ asign_t *new_assignment(lval_t *lval, expr_t *rval) {
     ret->lval = lval;
     ret->rval = rval;
     return ret;
+}
+
+stmt_list_t *new_statement_list(stmt_t *stmt) {
+    stmt_t *data = (stmt_t*)calloc(INIT_SIZE, sizeof(stmt_t));
+    stmt_list_t *ret = (stmt_list_t*)calloc(1, sizeof(stmt_list_t));
+    ret->capacity = INIT_SIZE;
+    ret->size = 0;
+    ret->stmt_array = data;
+    return append_stmt_list(ret, stmt);
+}
+
+stmt_list_t *append_stmt_list(stmt_list_t *list, stmt_t *stmt) {
+    const uint16_t size = list->size;
+    assert(size < list->capacity);
+    list->stmt_array[size] = *stmt;
+    ++list->size;
+    return list;
 }

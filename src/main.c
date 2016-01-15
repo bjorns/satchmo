@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "exec.h"
+#include "module.h"
+
 extern FILE *yyin;
 
-void parse(FILE*);
+module_t *parse(FILE*);
 
 int main(int argc, char** argv) {
     if (argc < 2) {
@@ -13,8 +16,13 @@ int main(int argc, char** argv) {
 
     FILE* f = fopen(filename, "r");
 
-    parse(f);
+    module_t *module = parse(f);
+    memspace_t memspace;
+
+    runtime_error_t error = execute(module, &memspace);
+
+
 
     fclose(f);
-    return 0;
+    return error;
 }

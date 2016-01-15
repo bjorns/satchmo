@@ -6,6 +6,7 @@
 #include "token.h"
 #include "expr.h"
 #include "stmt.h"
+#include "module.h"
 
 extern FILE *yyin;
 
@@ -26,6 +27,8 @@ int yylex();
 
     asign_t *asign;
     stmt_t *stmt;
+    stmt_list_t *stmt_list;
+    module_t *module;
 }
 
 %start  input
@@ -47,23 +50,23 @@ int yylex();
 %type <arglist> argument_list
 %type <asign>	assignment
 %type <funcall> function_call
+%type <stmt>    statement
+%type <stmt_list> statement_list
+%type <module>  input
 
 %%
 
-input:  module
-        ;
-
-module: statement_list
+input:  statement_list { $$ = new_module($1); }
         ;
 
 statement_list: /* empty */
-        | statement
-        | statement statement_list
-        | comment statement_list
+        | statement { $$ = new_statement_list($1); }
+        | statement_list statement { $$ = append_stmt_list($1, $2); }
+        | comment statement_list { $$ = $2; }
         ;
 
-statement: expression T_NEWLINE { printf("End statement.\n"); }
-        | assignment T_NEWLINE { printf("Assignment statement.\n"); }
+statement: expression T_NEWLINE { $$ = new_statement($1); }
+        | assignment T_NEWLINE { $$ = new_asignment_stmt($1); }
         ;
 
 assignment: left_val T_EQ expression { $$ = new_assignment($1, $3); }
@@ -100,7 +103,9 @@ int yyerror(char *s) {
     exit(1);
 }
 
-void parse(FILE* file) {
+module_t *parse(const char* filename, FILE* file) {
     yyin = file;
     yyparse();
+    module_t *ret = yylval.module;
+    return ret;
 }
