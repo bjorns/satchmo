@@ -6,7 +6,7 @@
 
 extern FILE *yyin;
 
-module_t *parse(FILE*);
+module_t *parse(char*, FILE*);
 
 int main(int argc, char** argv) {
     if (argc < 2) {
@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 
     FILE* f = fopen(filename, "r");
 
-    module_t *module = parse(f);
+    module_t *module = parse(filename, f);
     memspace_t memspace;
 
     runtime_error_t error = execute(module, &memspace);

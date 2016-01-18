@@ -40,7 +40,7 @@ expr_t *compound_expr(op_t op, expr_t *left, expr_t *right) {
 }
 
 funcall_t *new_funcall(var_t* var, arglist_t *args) {
-    printf("New funcall %s()\n", var->name);
+    printf("New funcall %s()\n", var->name.data);
     funcall_t *ret = (funcall_t*)malloc(sizeof(funcall_t));
     ret->id = var;
     ret->args = args;

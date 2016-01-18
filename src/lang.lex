@@ -1,13 +1,15 @@
 %{
+    #include "str.h"
     #include "token.h"
     #include "expr.h"
     #include "stmt.h"
     #include "module.h"
+
     #include "parser.h"
 %}
 
 T_NUMBER [0-9]+\.?[0-9]*
-T_VAR [a-z][a-z0-9_]*
+T_TOKEN [a-z][a-z0-9_]*
 T_OP [+\-]
 T_EQ =
 T_NEWLINE \n
@@ -25,10 +27,10 @@ T_COMMENT #[^\n]+
     return T_NUMBER;
 }
 
-{T_VAR}    {
+{T_TOKEN}    {
     printf("Parsed id %s at %d\n", yytext, yylineno);
-    yylval.var = new_var(yytext, yyleng);
-    return T_VAR;
+    yylval.token = new_str(yytext, yyleng);
+    return T_TOKEN;
 }
 
 {T_OP}    {

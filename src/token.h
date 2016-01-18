@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "str.h"
 
 static const int MAX_ID_LEN = 1024;
 
@@ -13,8 +14,8 @@ typedef enum {
 
 
 typedef struct {
-    char* name;
+    str_t name;
 } var_t;
 
 
-var_t *new_var(const char* name, int32_t len);
+var_t *new_var(str_t token);
