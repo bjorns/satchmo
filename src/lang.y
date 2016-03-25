@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#include "log.h"
 #include "str.h"
 #include "token.h"
 #include "expr.h"
@@ -105,7 +106,7 @@ extern char *yytext;
 
 
 int yyerror(char *s) {
-    printf("ERROR: %s at symbol \"%s\" on line %d\n", s, yytext, yylineno);
+    error("%s at symbol \"%s\" on line %d\n", s, yytext, yylineno);
     exit(1);
 }
 

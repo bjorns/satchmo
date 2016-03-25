@@ -4,10 +4,11 @@
 #include <assert.h>
 #include <stdint.h>
 
+#include "log.h"
 #include "expr.h"
 
 lval_t *new_lval(var_t *var) {
-    printf("Creating lval\n");
+    log("Creating lval");
     lval_t *ret = (lval_t*)malloc(sizeof(lval_t));
     ret->var = var;
     return ret;
@@ -21,12 +22,12 @@ op_t parse_operator(const char* str) {
     if (0 == strcmp("+", str)) {
         return ADD;
     }
-    printf("error: Unknown operator %s\n", str);
+    log("error: Unknown operator %s", str);
     return ADD;
 }
 
 expr_t *compound_expr(op_t op, expr_t *left, expr_t *right) {
-    printf("Parsing compound expression...\n");
+    log("Parsing compound expression...");
     comp_expr_t *expr = (comp_expr_t*)malloc(sizeof(comp_expr_t));
     expr->operator = op;
     expr->left = (struct expr *)left;
@@ -40,7 +41,7 @@ expr_t *compound_expr(op_t op, expr_t *left, expr_t *right) {
 }
 
 funcall_t *new_funcall(var_t* var, arglist_t *args) {
-    printf("New funcall %s()\n", var->name.data);
+    log("New funcall %s()", var->name.data);
     funcall_t *ret = (funcall_t*)malloc(sizeof(funcall_t));
     ret->id = var;
     ret->args = args;

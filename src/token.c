@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "log.h"
 #include "token.h"
 
 var_t *new_var(str_t token) {
@@ -13,6 +14,6 @@ var_t *new_var(str_t token) {
     var_t *ret = (var_t*)malloc(sizeof(var_t));
     ret->name = token;
 
-    printf("Created variable %s\n", ret->name.data);
+    log("Created variable %s", ret->name.data);
     return ret;
 }

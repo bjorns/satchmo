@@ -1,4 +1,5 @@
 %{
+    #include "log.h"
     #include "str.h"
     #include "token.h"
     #include "expr.h"
@@ -22,50 +23,50 @@ T_COMMENT #[^\n]+
 
 
 {T_NUMBER}    {
-    printf("Parsed number %s at %d\n", yytext, yylineno);
+    log("Parsed number %s at %d", yytext, yylineno);
     yylval.number = parse_number(yytext);
     return T_NUMBER;
 }
 
 {T_TOKEN}    {
-    printf("Parsed id %s at %d\n", yytext, yylineno);
+    log("Parsed id %s at %d", yytext, yylineno);
     yylval.token = new_str(yytext, yyleng);
     return T_TOKEN;
 }
 
 {T_OP}    {
-    printf("Parsed op token %s at %d\n", yytext, yylineno);
+    log("Parsed op token %s at %d", yytext, yylineno);
     yylval.op = parse_operator(yytext);
     return T_OP;
 }
 
 {T_EQ}    {
-    printf("Parsed assignment at %d\n", yylineno);
+    log("Parsed assignment at %d", yylineno);
     return T_EQ;
 }
 
-{T_NEWLINE}  {
-    printf("New line...\n");
+{T_NEWLINE} {
+    log("New line...");
     return T_NEWLINE;
 }
 
 {T_COMMENT} {
-    printf("Comment \"%s\" at line %d\n", yytext, yylineno);
+    log("Comment \"%s\" at line %d", yytext, yylineno);
     return T_COMMENT;
 }
 
 {T_LPAREN} {
-    printf("Found left paren\n");
+    log("Found left paren");
     return T_LPAREN;
 }
 
 {T_RPAREN} {
-    printf("Found right paren\n");
+    log("Found right paren");
     return T_RPAREN;
 }
 
 {T_COMMA} {
-    printf("Found comma\n");
+    log("Found comma");
     return T_COMMA;
 }
 
@@ -75,6 +76,6 @@ T_COMMENT #[^\n]+
 %%
 
 int yywrap() {
-    printf("End of program\n");
+    log("End of program");
     return 1;
 }
