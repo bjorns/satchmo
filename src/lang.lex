@@ -11,6 +11,7 @@
 
 T_NUMBER [0-9]+\.?[0-9]*
 T_TOKEN [a-z][a-z0-9_]*
+T_STR \"([^\"]|\\\")*\"
 T_OP [+\-]
 T_EQ =
 T_NEWLINE \n
@@ -23,15 +24,21 @@ T_COMMENT #[^\n]+
 
 
 {T_NUMBER}    {
-    log("Parsed number %s at %d", yytext, yylineno);
+    log("number %s at %d", yytext, yylineno);
     yylval.number = parse_number(yytext);
     return T_NUMBER;
 }
 
 {T_TOKEN}    {
-    log("Parsed id %s at %d", yytext, yylineno);
+    log("id %s at %d", yytext, yylineno);
     yylval.token = new_str(yytext, yyleng);
     return T_TOKEN;
+}
+
+{T_STR}     {
+    log("str %s at %d", yytext, yylineno);
+    yylval.token = new_str(yytext+1, yyleng-2);
+    return T_STR;
 }
 
 {T_OP}    {

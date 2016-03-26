@@ -1,3 +1,3 @@
-3 + func0()
-func1(foo)
-x = func2(foo, bar)
+func2("hello \"world\"")
+
+func3("foobar")

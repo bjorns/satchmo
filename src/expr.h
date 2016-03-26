@@ -18,7 +18,8 @@ struct comp_expr {
 typedef struct comp_expr comp_expr_t;
 
 typedef enum {
-    IMMEDIATE, // constant
+    IMMEDIATE_NUM, // constant
+    IMMEDIATE_STR,
     DIRECT,    // variable
     FUNCALL,   // function call
     COMP       // compound
@@ -54,7 +55,8 @@ arglist_t* new_arglist(expr_t* arg);
 arglist_t* compound_arglist(arglist_t *arglist, expr_t *arg);
 funcall_t *new_funcall(var_t* var, arglist_t *args);
 
-expr_t  *new_immediate_expr(number_t number);
+expr_t  *new_immediate_num(number_t number);
+expr_t  *new_immediate_str(str_t str);
 expr_t  *new_direct_expr(var_t *var);
 expr_t  *compound_expr(op_t op, expr_t *left, expr_t *right);
 expr_t  *new_funcall_expr(funcall_t *funcall);

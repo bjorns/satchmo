@@ -19,6 +19,7 @@ int yylex();
 
 %union {
     str_t token;
+    str_t str;
 
     op_t op;
     var_t *var;
@@ -41,6 +42,7 @@ int yylex();
 %token <op> T_OP
 %token T_EQ
 %token <token> T_TOKEN
+%token <str> T_STR
 %token T_NEWLINE
 %token T_LPAREN
 %token T_RPAREN
@@ -80,8 +82,9 @@ assignment: left_val T_EQ expression { $$ = new_assignment($1, $3); }
 left_val:   variable { $$ = new_lval($1); }
         ;
 
-expression: T_NUMBER { $$ = new_immediate_expr($1); }
-        | variable { $$ = new_direct_expr($1); }
+expression: T_NUMBER { $$ = new_immediate_num($1); }
+        | T_STR      { $$ = new_immediate_str($1); }
+        | variable   { $$ = new_direct_expr($1); }
         | expression T_OP expression { $$ = compound_expr($2, $1, $3) }
         | function_call              { $$ = new_funcall_expr($1); }
         ;

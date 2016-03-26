@@ -49,10 +49,17 @@ funcall_t *new_funcall(var_t* var, arglist_t *args) {
 }
 
 
-expr_t  *new_immediate_expr(number_t number) {
+expr_t  *new_immediate_num(number_t number) {
     expr_t *ret = (expr_t*)malloc(sizeof(expr_t));
-    ret->type = IMMEDIATE;
+    ret->type = IMMEDIATE_NUM;
     ret->expr = (void*)&number;
+    return ret;
+}
+
+expr_t  *new_immediate_str(str_t str) {
+    expr_t *ret = (expr_t*)malloc(sizeof(expr_t));
+    ret->type = IMMEDIATE_STR;
+    ret->expr = (void*)&str;
     return ret;
 }
 

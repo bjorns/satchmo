@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include "log.h"
 #include "expr.h"
 #include "stmt.h"
 
@@ -10,6 +11,7 @@ stmt_t *new_statement(expr_t *expr) {
     stmt_t *ret = (stmt_t*)calloc(1, sizeof(stmt_t));
     ret->type = EXPR;
     ret->data = (void*)expr;
+    log("Expression statement created");
     return ret;
 }
 
@@ -19,6 +21,7 @@ stmt_t *new_asignment_stmt(asign_t *asign) {
     stmt_t *ret = (stmt_t*)malloc(sizeof(stmt_t));
     ret->type = ASIGN;
     ret->data = (void*)asign;
+    log("Assignment statement created");
     return ret;
 }
 
