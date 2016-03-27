@@ -69,6 +69,7 @@ input:  statement_list { $$ = new_module($1); }
 statement_list: /* empty */
         | statement { $$ = new_statement_list($1); }
         | statement_list statement { $$ = append_stmt_list($1, $2); }
+        | statement_list T_NEWLINE { $$ = $1; }
         | comment statement_list { $$ = $2; }
         ;
 
