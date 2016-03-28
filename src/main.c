@@ -19,11 +19,9 @@ int main(int argc, char** argv) {
     FILE* f = fopen(filename, "r");
 
     module_t *module = parse(filename, f);
-    memspace_t memspace;
+    runtime_t runtime;
 
-    runtime_error_t error = execute(module, &memspace);
-
-
+    runtime_error_t error = execute(&runtime, module);
 
     fclose(f);
     return error;

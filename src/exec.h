@@ -13,6 +13,6 @@ typedef enum {
 
 typedef struct {
 
-} memspace_t;
+} runtime_t;
 
-runtime_error_t execute(module_t *module, memspace_t *context);
+runtime_error_t execute(runtime_t *context, module_t *module);

@@ -3,7 +3,7 @@
 #include "stmt.h"
 
 typedef struct {
-    void *data;
+    stmt_list_t *stmt_list;
 } module_t;
 
 module_t *new_module(stmt_list_t *stmt_list);
