@@ -24,7 +24,7 @@ int yylex();
     op_t op;
     var_t *var;
     lval_t *lval;
-    number_t number;
+    number_t *number;
 
     arglist_t *arglist;
     funcall_t *funcall;

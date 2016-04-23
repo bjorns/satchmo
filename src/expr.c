@@ -14,8 +14,12 @@ lval_t *new_lval(var_t *var) {
     return ret;
 }
 
-number_t parse_number(const char* str) {
-    return (number_t)atoi(str);
+number_t *parse_number(const char* str) {
+    number_t val = (number_t)atoi(str);
+    log("Parsed number %d", val);
+    number_t *ret = (number_t*)malloc(sizeof(number_t));
+    *ret = val;
+    return ret;
 }
 
 op_t parse_operator(const char* str) {
@@ -49,10 +53,10 @@ funcall_t *new_funcall(var_t* var, arglist_t *args) {
 }
 
 
-expr_t  *new_immediate_num(number_t number) {
+expr_t  *new_immediate_num(number_t *number) {
     expr_t *ret = (expr_t*)malloc(sizeof(expr_t));
     ret->type = IMMEDIATE_NUM;
-    ret->expr = (void*)&number;
+    ret->expr = (void*)number;
     return ret;
 }
 
