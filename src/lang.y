@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "log.h"
 #include "str.h"
@@ -14,6 +15,8 @@ extern FILE *yyin;
 
 int yyerror(char *s);
 int yylex();
+
+static module_t *mod;
 
 %}
 
@@ -63,7 +66,7 @@ int yylex();
 
 %%
 
-input:  statement_list { $$ = new_module($1); }
+input:  statement_list { mod = new_module("foobar", $1); }
         ;
 
 statement_list: /* empty */
@@ -116,7 +119,7 @@ int yyerror(char *s) {
 
 module_t *parse(const char* filename, FILE* file) {
     yyin = file;
-    yyparse();
-    module_t *ret = yylval.module;
-    return ret;
+    int status = yyparse();
+    assert(status == 0);
+    return mod;
 }

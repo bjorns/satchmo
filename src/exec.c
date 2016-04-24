@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 
 #include "log.h"
@@ -40,8 +41,11 @@ runtime_error_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
 }
 
 runtime_error_t exec_stmt_list(runtime_t *runtime, stmt_list_t *stmt_list) {
+    assert(stmt_list != NULL);
+    log("executing statement list");
     for (uint16_t i=0; i < stmt_list->size; ++i) {
         stmt_t stmt = stmt_list->stmt_array[i];
+        log("  executing statement");
         runtime_error_t error = exec_stmt(runtime, &stmt);
         if (error != OK) {
             return error;
@@ -51,6 +55,6 @@ runtime_error_t exec_stmt_list(runtime_t *runtime, stmt_list_t *stmt_list) {
 }
 
 runtime_error_t execute(runtime_t *runtime, module_t *module) {
-    exec_stmt_list(runtime, module->stmt_list);
-    return OK;
+    runtime_error_t err = exec_stmt_list(runtime, module->stmt_list);
+    return err;
 }

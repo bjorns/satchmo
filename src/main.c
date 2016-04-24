@@ -3,6 +3,7 @@
 
 #include "exec.h"
 #include "module.h"
+#include "log.h"
 
 extern FILE *yyin;
 
@@ -19,8 +20,10 @@ int main(int argc, char** argv) {
     FILE* f = fopen(filename, "r");
 
     module_t *module = parse(filename, f);
-    runtime_t runtime;
 
+
+    runtime_t runtime;
+    log("Executing module %s", module->name);
     runtime_error_t error = execute(&runtime, module);
 
     fclose(f);
