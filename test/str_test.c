@@ -1,14 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "str.h"
-
-void assert(const char* msg, bool expr) {
-    if (!expr) {
-        printf("error: %s\n", msg);
-        exit(-1);
-    }
-}
+#include "test.h"
 
 void test_eq() {
     str_t x = new_str("foobar", 6);

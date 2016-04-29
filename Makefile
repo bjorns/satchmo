@@ -8,9 +8,11 @@ SRC+=src/token.c
 SRC+=src/exec.c
 SRC+=src/module.c
 SRC+=src/str.c
+SRC+=src/hashtable.c
 
 TEST_SRC=
 TEST_SRC+=test/str_test.c
+TEST_SRC+=test/hash_test.c
 
 TARGET=satchmo
 TEST_TARGET=bin/run_tests
@@ -31,7 +33,6 @@ bin/%_test.o: test/%_test.c bin
 
 bin/%.o: src/%.c bin
 	$(CC) $(CC_OPTS) -c -o $@ $<
-
 
 src/lex.yy.c: src/lang.lex src/parser.c
 	flex --yylineno -o $@ $<
