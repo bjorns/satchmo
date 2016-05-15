@@ -5,6 +5,12 @@
 #include "expr.h"
 #include "exec.h"
 
+runtime_t *new_runtime() {
+    runtime_t *ret = (runtime_t*)malloc(sizeof(runtime_t));
+    ret->symbtable = new_symbtable();
+    return ret;
+}
+
 runtime_error_t exec_assignment(runtime_t *runtime, asign_t* asign) {
     error("Assignment not implemented");
     return INTERPRETER_ERROR;

@@ -22,9 +22,9 @@ int main(int argc, char** argv) {
     module_t *module = parse(filename, f);
 
 
-    runtime_t runtime;
+    runtime_t *runtime = new_runtime();
     log("Executing module %s", module->name);
-    runtime_error_t error = execute(&runtime, module);
+    runtime_error_t error = execute(runtime, module);
 
     fclose(f);
     return error;

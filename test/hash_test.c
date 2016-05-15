@@ -5,7 +5,7 @@
 #include "hashtable.h"
 
 void test_set_value() {
-    hashtable_t *subject = ht_create(10);
+    hashtable_t *subject = new_hashtable(10);
 
     ht_set(subject, "foobar", "baz");
 
@@ -14,7 +14,7 @@ void test_set_value() {
 
 void test_chaining() {
     int TOO_SMALL = 2;
-    hashtable_t *subject = ht_create(TOO_SMALL);
+    hashtable_t *subject = new_hashtable(TOO_SMALL);
 
     ht_set(subject, "one", "ONE");
     ht_set(subject, "two", "TWO");
