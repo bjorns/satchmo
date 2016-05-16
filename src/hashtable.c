@@ -31,7 +31,7 @@ hashtable_t *new_hashtable(int size) {
 }
 
 /* Hash a string for a particular hash table. */
-int ht_hash( hashtable_t *hashtable, char *key ) {
+int _hash( hashtable_t *hashtable, const char *key ) {
     unsigned long int hashval = 0;
     int i = 0;
 
@@ -45,7 +45,7 @@ int ht_hash( hashtable_t *hashtable, char *key ) {
 }
 
 /* Create a key-value pair. */
-hash_entry_t *ht_newpair( char *key, char *value ) {
+hash_entry_t *ht_newpair(const char *key, char *value) {
     hash_entry_t *newpair;
 
     if ((newpair = malloc(sizeof(hash_entry_t))) == NULL) {
@@ -66,13 +66,13 @@ hash_entry_t *ht_newpair( char *key, char *value ) {
 }
 
 /* Insert a key-value pair into a hash table. */
-void ht_set(hashtable_t *hashtable, char *key, char *value) {
+void ht_set(hashtable_t *hashtable, const char *key, void *value) {
     int bin = 0;
     hash_entry_t *newpair = NULL;
     hash_entry_t *next = NULL;
     hash_entry_t *last = NULL;
 
-    bin = ht_hash( hashtable, key );
+    bin = _hash( hashtable, key );
 
     next = hashtable->table[bin];
 
@@ -109,11 +109,11 @@ void ht_set(hashtable_t *hashtable, char *key, char *value) {
 }
 
 /* Retrieve a key-value pair from a hash table. */
-char *ht_get( hashtable_t *hashtable, char *key ) {
+void *ht_get( hashtable_t *hashtable, const char *key ) {
     int bin = 0;
     hash_entry_t *pair;
 
-    bin = ht_hash( hashtable, key );
+    bin = _hash( hashtable, key );
 
     /* Step through the bin, looking for our value. */
     pair = hashtable->table[ bin ];

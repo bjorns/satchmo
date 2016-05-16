@@ -15,5 +15,16 @@ symbtable_t *new_symbtable() {
 symbol_t *new_symbol(str_t name, symbol_type_t type, void *object) {
     symbol_t* ret = (symbol_t*)malloc(sizeof(symbol_t));
     ret->name = name;
+    ret->type = type;
+    ret->object = object;
     return ret;
+}
+
+
+void put_symbol(symbtable_t *table, symbol_t *symbol) {
+    ht_set(&table->hashtable, symbol->name.data, symbol);
+}
+
+symbol_t *get_symbol(symbtable_t *table, str_t name) {
+    return (symbol_t*)ht_get(&table->hashtable, name.data);
 }

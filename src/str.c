@@ -8,12 +8,16 @@
 /**
  * Create a new string object.
  */
-str_t new_str(char *data, uint16_t len) {
+str_t new_str(const char *data, uint16_t len) {
     str_t ret;
     ret.data = (char*)calloc(len, sizeof(char));
     memcpy(ret.data, data, len * sizeof(char));
     ret.length = len;
     return ret;
+}
+
+str_t str(const char *value) {
+    return new_str(value, strlen(value));
 }
 
 bool str_eq(str_t x, str_t y) {

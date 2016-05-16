@@ -14,6 +14,7 @@ SRC+=src/symbol.c
 TEST_SRC=
 TEST_SRC+=test/str_test.c
 TEST_SRC+=test/hash_test.c
+TEST_SRC+=test/symb_test.c
 
 TARGET=satchmo
 TEST_TARGET=bin/run_tests

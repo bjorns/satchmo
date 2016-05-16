@@ -3,7 +3,7 @@
 
 void test_eq() {
     str_t x = new_str("foobar", 6);
-    str_t y = new_str("foobar", 6);
+    str_t y = str("foobar");
     str_t z = new_str("foobar2", 7);
     str_t p = new_str("barfoo", 6);
     assert("Strings are not equal", str_eq(x, y));

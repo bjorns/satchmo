@@ -15,5 +15,5 @@ typedef struct {
 
 hashtable_t *new_hashtable(int size);
 
-void ht_set(hashtable_t *hashtable, char *key, char *value);
-char *ht_get( hashtable_t *hashtable, char *key );
+void ht_set(hashtable_t *hashtable, const char *key, void *value);
+void *ht_get(hashtable_t *hashtable, const char *key);

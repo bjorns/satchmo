@@ -30,4 +30,6 @@ symbtable_t *new_symbtable();
 /**
  * Put symbol in table
  */
-void put_symbol(symbtable_t* table, const char* name, symbol_t* symbol);
+void put_symbol(symbtable_t *table, symbol_t *symbol);
+
+symbol_t *get_symbol(symbtable_t *table, str_t name);
