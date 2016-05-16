@@ -1,5 +1,6 @@
 #include "str.h"
-#include "test.h"
+
+#include "assert.h"
 
 void test_eq() {
     str_t x = new_str("foobar", 6);

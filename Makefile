@@ -10,6 +10,7 @@ SRC+=src/module.c
 SRC+=src/str.c
 SRC+=src/hashtable.c
 SRC+=src/symbol.c
+SRC+=src/assert.c
 
 TEST_SRC=
 TEST_SRC+=test/str_test.c

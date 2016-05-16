@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "test.h"
 #include "hashtable.h"
+
+#include "assert.h"
 
 void test_set_value() {
     hashtable_t *subject = new_hashtable(10);
