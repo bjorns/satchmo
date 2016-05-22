@@ -27,6 +27,17 @@ symbol_t *new_symbol(str_t name, symbol_type_t type, void *object);
  */
 symbtable_t *new_symbtable();
 
+
+/**
+ * Enter new context
+ */
+void push_frame(symbtable_t* table);
+
+/**
+ * Exit frame
+ */
+void pop_frame(symbtable_t* table);
+
 /**
  * Put symbol in table
  */

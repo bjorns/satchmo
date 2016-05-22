@@ -28,8 +28,3 @@ void test_symbol_table_access() {
 
     assert_streq("symbol_name", s2->name);
 }
-
-void symbol_test() {
-    test_create_symbol();
-    test_symbol_table_access();
-}

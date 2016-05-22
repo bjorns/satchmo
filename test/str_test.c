@@ -17,8 +17,3 @@ void test_substr() {
     assert("Incorrect substr", str_eq(substr(x, 0, 3), new_str("foo", 3)));
     assert("Incorrect substr", str_eq(substr(x, 3, 6), new_str("bar", 3)));
 }
-
-void str_test() {
-    test_eq();
-    test_substr();
-}

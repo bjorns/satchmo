@@ -1,6 +1,6 @@
 CC=clang
 CC_OPTS=-Wall -std=c11 -O0 -g
-TEST_OPTS=-Isrc
+TEST_OPTS=-Isrc -Itest
 SRC=
 SRC+=src/expr.c
 SRC+=src/stmt.c
@@ -11,11 +11,13 @@ SRC+=src/str.c
 SRC+=src/hashtable.c
 SRC+=src/symbol.c
 SRC+=src/assert.c
+SRC+=src/stack.c
 
 TEST_SRC=
 TEST_SRC+=test/str_test.c
 TEST_SRC+=test/hash_test.c
 TEST_SRC+=test/symb_test.c
+TEST_SRC+=test/stack_test.c
 
 TARGET=satchmo
 TEST_TARGET=bin/run_tests
@@ -34,8 +36,17 @@ bin:
 bin/%_test.o: test/%_test.c bin
 	$(CC) $(CC_OPTS) $(TEST_OPTS) -c -o $@ $<
 
+bin/test_main.o: test/test_main.c bin test/_test.h test/_test_exec.c
+	$(CC) $(CC_OPTS) -c -o $@ $<
+
 bin/%.o: src/%.c bin
 	$(CC) $(CC_OPTS) -c -o $@ $<
+
+test/_test.h: test/*.c
+	cat test/*.c | grep "void test_" | sed -e "s/{/;/g" > $@
+
+test/_test_exec.c: test/*_test.c
+	cat test/*.c | grep "void test_" | sed -e "s/{/; ++i;/g" | sed -e "s/void //g" > $@
 
 src/lex.yy.c: src/lang.lex src/parser.c
 	flex --yylineno -o $@ $<
@@ -54,3 +65,4 @@ clean:
 	rm -f src/lex.yy.c
 	rm -f src/parser.c src/parser.h src/parser.output
 	rm -f $(TARGET)
+	rm -f test/_*

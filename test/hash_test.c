@@ -31,8 +31,3 @@ void test_chaining() {
     assert_result("THREE", ht_get(subject, "three"));
     assert_result("FOUR", ht_get(subject, "four"));
 }
-
-void hash_test() {
-    test_set_value();
-    test_chaining();
-}
