@@ -25,7 +25,7 @@ TEST_TARGET=bin/run_tests
 OBJ=$(patsubst src/%.c,bin/%.o,$(SRC))
 TEST_OBJ=$(patsubst test/%.c,bin/%.o,$(TEST_SRC))
 
-all: $(TARGET)
+all: $(TARGET) test
 
 test: $(TEST_TARGET)
 	./$(TEST_TARGET)
