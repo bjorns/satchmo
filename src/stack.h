@@ -9,8 +9,10 @@ typedef struct {
     void **entries;
 } stck_t;
 
-stck_t *new_stack(uint32_t capacity);
+stck_t *new_stack(const uint32_t capacity);
 
 int stack_push(stck_t *stack, void* entry);
 
 void *stack_pop(stck_t *stack);
+
+void *stack_peek(stck_t *stack);

@@ -1,5 +1,7 @@
 #pragma once
+
 #include "str.h"
+#include "stack.h"
 #include "hashtable.h"
 
 typedef enum {
@@ -14,7 +16,7 @@ typedef struct {
 } symbol_t;
 
 typedef struct {
-    hashtable_t hashtable;
+    stck_t *stack;
 } symbtable_t;
 
 /**
@@ -34,7 +36,7 @@ symbtable_t *new_symbtable();
 void push_frame(symbtable_t* table);
 
 /**
- * Exit frame
+ * Exit context
  */
 void pop_frame(symbtable_t* table);
 
