@@ -14,12 +14,12 @@ hashtable_t *new_hashtable(int size) {
     }
 
     /* Allocate the table itself. */
-    if ((hashtable = malloc(sizeof(hashtable_t))) == NULL) {
+    if ((hashtable = calloc(1, sizeof(hashtable_t))) == NULL) {
         return NULL;
     }
 
     /* Allocate pointers to the head nodes. */
-    if ((hashtable->table = malloc( sizeof(hash_entry_t*) * size ) ) == NULL) {
+    if ((hashtable->table = calloc(size, sizeof(hash_entry_t*)) ) == NULL) {
         return NULL;
     }
     for (i = 0; i < size; i++) {
@@ -30,69 +30,65 @@ hashtable_t *new_hashtable(int size) {
     return hashtable;
 }
 
-/* Hash a string for a particular hash table. */
-int _hash( hashtable_t *hashtable, const char *key ) {
+/**
+ * Hash a string for a particular hash table.
+ */
+static int _hash( hashtable_t *hashtable, str_t key ) {
     unsigned long int hashval = 0;
     int i = 0;
 
     /* Convert our string to an integer */
-    while (hashval < ULONG_MAX && i < strlen(key)) {
+    const char *data = key.data;
+    while (hashval < ULONG_MAX && i < key.length) {
         hashval = hashval << 8;
-        hashval += key[ i ];
+        hashval += data[i];
         i++;
     }
     return hashval % hashtable->size;
 }
 
-/* Create a key-value pair. */
-hash_entry_t *ht_newpair(const char *key, char *value) {
+/**
+ * Create a key-value pair.
+ */
+static hash_entry_t *ht_newpair(str_t key, void *value) {
     hash_entry_t *newpair;
 
     if ((newpair = malloc(sizeof(hash_entry_t))) == NULL) {
         return NULL;
     }
 
-    if ((newpair->key = strdup(key)) == NULL) {
-        return NULL;
-    }
-
-    if ((newpair->value = strdup(value)) == NULL) {
-        return NULL;
-    }
+    newpair->key = copy_str(key);
+    newpair->value = value;
 
     newpair->next = NULL;
 
     return newpair;
 }
 
-/* Insert a key-value pair into a hash table. */
-void ht_set(hashtable_t *hashtable, const char *key, void *value) {
+void ht_set(hashtable_t *hashtable, const str_t key, void *value) {
     int bin = 0;
     hash_entry_t *newpair = NULL;
     hash_entry_t *next = NULL;
     hash_entry_t *last = NULL;
 
-    bin = _hash( hashtable, key );
+    bin = _hash(hashtable, key);
 
     next = hashtable->table[bin];
 
-    while ( next != NULL && next->key != NULL && strcmp( key, next->key ) > 0 ) {
+    while (next != NULL && next->key.data != NULL && !str_eq(key, next->key)) {
         last = next;
         next = next->next;
     }
 
     /* There's already a pair.  Let's replace that string. */
-    if ( next != NULL && next->key != NULL && strcmp( key, next->key ) == 0 ) {
-
+    if (next != NULL && next->key.data != NULL && str_eq(key, next->key)) {
         free( next->value );
         next->value = strdup( value );
-
-        /* Nope, could't find it.  Time to grow a pair. */
     } else {
-        newpair = ht_newpair( key, value );
+        newpair = ht_newpair(key, value);
 
         /* We're at the start of the linked list in this bin. */
-        if( next == hashtable->table[ bin ] ) {
+        if( next == hashtable->table[bin] ) {
             newpair->next = next;
             hashtable->table[ bin ] = newpair;
 
@@ -108,25 +104,25 @@ void ht_set(hashtable_t *hashtable, const char *key, void *value) {
     }
 }
 
-/* Retrieve a key-value pair from a hash table. */
-void *ht_get( hashtable_t *hashtable, const char *key ) {
+/**
+ * Retrieve a key-value pair from a hash table.
+ */
+void *ht_get(hashtable_t *hashtable, const str_t key) {
     int bin = 0;
     hash_entry_t *pair;
 
-    bin = _hash( hashtable, key );
+    bin = _hash(hashtable, key);
 
     /* Step through the bin, looking for our value. */
     pair = hashtable->table[ bin ];
-    while (pair != NULL && pair->key != NULL && strcmp( key, pair->key ) > 0 ) {
+    while (pair != NULL && pair->key.data != NULL && !str_eq(key, pair->key)) {
         pair = pair->next;
     }
 
     /* Did we actually find anything? */
-    if (pair == NULL || pair->key == NULL || strcmp( key, pair->key ) != 0 ) {
+    if (pair == NULL || pair->key.data == NULL || !str_eq(key, pair->key)) {
         return NULL;
-
     } else {
         return pair->value;
     }
-
 }

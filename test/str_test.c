@@ -17,3 +17,12 @@ void test_substr() {
     assert("Incorrect substr", str_eq(substr(x, 0, 3), new_str("foo", 3)));
     assert("Incorrect substr", str_eq(substr(x, 3, 6), new_str("bar", 3)));
 }
+
+void test_copy_str() {
+    str_t x = str("foobar");
+    str_t copy = copy_str(x);
+    ASSERT(x.data != copy.data);
+    ASSERT(x.length == 6);
+    assert_streq("foobar", copy);
+
+}

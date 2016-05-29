@@ -1,11 +1,11 @@
 #pragma once
+#include "str.h"
 
 struct hash_entry {
-	char *key;
-	char *value;
+	str_t key;
+	void *value;
 	struct hash_entry *next;
 };
-
 typedef struct hash_entry hash_entry_t;
 
 typedef struct {
@@ -13,7 +13,19 @@ typedef struct {
 	hash_entry_t **table;
 } hashtable_t;
 
+
+/**
+ * Create new hashtable
+ */
 hashtable_t *new_hashtable(int size);
 
-void ht_set(hashtable_t *hashtable, const char *key, void *value);
-void *ht_get(hashtable_t *hashtable, const char *key);
+/**
+ * Insert a key-value pair into a hash table.
+ */
+void ht_set(hashtable_t *hashtable, const str_t key, void *value);
+
+
+/**
+ * Retrieve value
+ */
+void *ht_get(hashtable_t *hashtable, const str_t key);

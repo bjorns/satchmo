@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "str.h"
 
@@ -18,6 +19,14 @@ str_t new_str(const char *data, uint16_t len) {
 
 str_t str(const char *value) {
     return new_str(value, strlen(value));
+}
+
+str_t copy_str(str_t str) {
+    str_t ret;
+    ret.data = strdup(str.data);
+    assert(ret.data != NULL);
+    ret.length = str.length;
+    return ret;
 }
 
 bool str_eq(str_t x, str_t y) {

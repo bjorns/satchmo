@@ -37,7 +37,7 @@ void pop_frame(symbtable_t *table) {
 
 void put_symbol(symbtable_t *table, symbol_t *symbol) {
     hashtable_t *frame = (hashtable_t*)stack_peek(table->stack);
-    ht_set(frame, symbol->name.data, symbol);
+    ht_set(frame, symbol->name, symbol);
 }
 
 symbol_t *get_symbol(symbtable_t *table, str_t name) {
@@ -46,7 +46,7 @@ symbol_t *get_symbol(symbtable_t *table, str_t name) {
     int index = stack->size - 1;
     while(index >= 0) {
         hashtable_t *frame = (hashtable_t*)stack->entries[index];
-        symbol_t *symb = (symbol_t*)ht_get(frame, name.data);
+        symbol_t *symb = (symbol_t*)ht_get(frame, name);
         if (symb != NULL) {
             return symb;
         }

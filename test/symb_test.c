@@ -47,8 +47,9 @@ void test_symb_frames() {
     put_symbol(symbtable, local);
 
     symbol_t *local_lookup = get_symbol(symbtable, str("local_symbol"));
-    ASSERT(local_lookup != local);
 
+    // Same object
+    ASSERT(local_lookup == local);
 
     symbol_t *global_lookup = get_symbol(symbtable, str("global_symbol"));
     ASSERT(global_lookup != NULL);
