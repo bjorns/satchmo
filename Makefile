@@ -27,26 +27,14 @@ TEST_OBJ=$(patsubst test/%.c,bin/%.o,$(TEST_SRC))
 
 all: $(TARGET) test
 
-test: $(TEST_TARGET)
-	./$(TEST_TARGET)
-
-bin:
-	mkdir -p $@
-
-bin/%_test.o: test/%_test.c bin
-	$(CC) $(CC_OPTS) $(TEST_OPTS) -c -o $@ $<
-
-bin/test_main.o: test/test_main.c bin test/_test.h test/_test_exec.c
-	$(CC) $(CC_OPTS) -c -o $@ $<
+$(TARGET): $(OBJ) bin/main.o bin/lex.yy.o bin/parser.o
+	$(CC) $(CC_OPTS) -o $@ $^
 
 bin/%.o: src/%.c bin
 	$(CC) $(CC_OPTS) -c -o $@ $<
 
-test/_test.h: test/*.c
-	cat test/*.c | grep "void test_" | sed -e "s/{/;/g" > $@
-
-test/_test_exec.c: test/*_test.c
-	cat test/*.c | grep "void test_" | sed -e "s/{/; ++i;/g" | sed -e "s/void //g" > $@
+bin:
+	mkdir -p $@
 
 src/lex.yy.c: src/lang.lex src/parser.c
 	flex --yylineno -o $@ $<
@@ -54,11 +42,27 @@ src/lex.yy.c: src/lang.lex src/parser.c
 src/parser.c: src/lang.y
 	bison -d -v -o $@ $<
 
-$(TARGET): $(OBJ) bin/main.o bin/lex.yy.o bin/parser.o
-	$(CC) $(CC_OPTS) -o $@ $^
+
+# Run all tests
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
 
 $(TEST_TARGET): bin/test_main.o $(OBJ) $(TEST_OBJ)
 	$(CC) $(CC_OPTS) -o $@ $^
+
+bin/test_main.o: test/test_main.c bin test/_test.h test/_test_exec.c
+	$(CC) $(CC_OPTS) -c -o $@ $<
+
+bin/%_test.o: test/%_test.c bin
+	$(CC) $(CC_OPTS) $(TEST_OPTS) -c -o $@ $<
+
+# Generate test header of all methods
+test/_test.h: test/*.c
+	cat test/*.c | grep "void test_" | sed -e "s/{/;/g" > $@
+
+# Generate method calls to all test methods
+test/_test_exec.c: test/*_test.c
+	cat test/*.c | grep "void test_" | sed -e "s/{/; ++i;/g" | sed -e "s/void //g" > $@
 
 clean:
 	rm -rf bin/

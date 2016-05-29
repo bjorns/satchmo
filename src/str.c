@@ -21,7 +21,7 @@ str_t str(const char *value) {
     return new_str(value, strlen(value));
 }
 
-str_t copy_str(str_t str) {
+str_t str_copy(str_t str) {
     str_t ret;
     ret.data = strdup(str.data);
     assert(ret.data != NULL);

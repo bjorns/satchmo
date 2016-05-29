@@ -18,9 +18,9 @@ void test_substr() {
     assert("Incorrect substr", str_eq(substr(x, 3, 6), new_str("bar", 3)));
 }
 
-void test_copy_str() {
+void test_copy() {
     str_t x = str("foobar");
-    str_t copy = copy_str(x);
+    str_t copy = str_copy(x);
     ASSERT(x.data != copy.data);
     ASSERT(x.length == 6);
     assert_streq("foobar", copy);

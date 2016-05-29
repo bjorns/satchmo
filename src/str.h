@@ -8,11 +8,27 @@ typedef struct {
     uint16_t length;
 } str_t;
 
+/**
+ * Create new string
+ */
 str_t new_str(const char *data, uint16_t len);
-str_t copy_str(str_t str);
 
+/**
+ * New string, implicity length
+ */
+str_t str(const char* value);
+
+/**
+ * Copy string, including char buffer
+ */
+str_t str_copy(str_t str);
+
+/**
+ * Returns true if string buffers are equal
+ */
 bool str_eq(str_t x, str_t y);
 
+/**
+ * Returns substring including start but not end character
+ */
 str_t substr(str_t str, uint16_t start, uint16_t end);
-
-str_t str(const char* value);
