@@ -8,7 +8,7 @@
 
 static const uint16_t INIT_SIZE = 32;
 
-stmt_t *new_statement(expr_t *expr) {
+stmt_t *new_stmt(expr_t *expr) {
     stmt_t *ret = (stmt_t*)calloc(1, sizeof(stmt_t));
     ret->type = EXPR;
     ret->data = (void*)expr;
@@ -33,7 +33,7 @@ asign_t *new_assignment(lval_t *lval, expr_t *rval) {
     return ret;
 }
 
-stmt_list_t *new_statement_list(stmt_t *stmt) {
+stmt_list_t *new_stmt_list(stmt_t *stmt) {
     log("Creating statement list");
     stmt_t *data = (stmt_t*)calloc(INIT_SIZE, sizeof(stmt_t));
     stmt_list_t *ret = (stmt_list_t*)calloc(1, sizeof(stmt_list_t));

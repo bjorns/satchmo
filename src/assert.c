@@ -12,10 +12,6 @@ void _macro_assert(const char *file, const int line, const char* msg, bool expr)
     }
 }
 
-void assert(const char* msg, bool expr) {
-    _macro_assert("unknown", -1, msg, expr);
-}
-
 void assert_streq(const char* expected, str_t value) {
     int result = strcmp(expected, value.data);
     if (result != 0) {

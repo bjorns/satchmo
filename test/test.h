@@ -1,9 +1,9 @@
 #pragma once
+#include <assert.h>
 #include <stdbool.h>
 
 #include "str.h"
 
-void assert(const char* msg, bool expr);
 void assert_streq(const char* expected, str_t value);
 
 void _macro_assert(const char *file, const int line, const char* msg, bool expr);

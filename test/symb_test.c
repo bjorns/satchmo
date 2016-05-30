@@ -5,7 +5,7 @@
 #include "expr.h"
 #include "str.h"
 
-#include "assert.h"
+#include "test.h"
 
 void test_create_symbol() {
     lval_t value;

@@ -70,13 +70,13 @@ input:  statement_list { mod = new_module("foobar", $1); }
         ;
 
 statement_list: /* empty */
-        | statement { $$ = new_statement_list($1); }
+        | statement { $$ = new_stmt_list($1); }
         | statement_list statement { $$ = append_stmt_list($1, $2); }
         | statement_list T_NEWLINE { $$ = $1; }
         | comment statement_list { $$ = $2; }
         ;
 
-statement: expression T_NEWLINE { $$ = new_statement($1); }
+statement: expression T_NEWLINE { $$ = new_stmt($1); }
         | assignment T_NEWLINE { $$ = new_asignment_stmt($1); }
         ;
 

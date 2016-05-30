@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "_test.h"
+#include "_test_head.h"
 
 int main() {
     int i = 0;

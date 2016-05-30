@@ -1,5 +1,5 @@
 #include "stack.h"
-#include "assert.h"
+#include "test.h"
 
 void test_stack() {
     stck_t *stack = new_stack(10);

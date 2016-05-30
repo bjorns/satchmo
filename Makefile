@@ -13,11 +13,7 @@ SRC+=src/symbol.c
 SRC+=src/assert.c
 SRC+=src/stack.c
 
-TEST_SRC=
-TEST_SRC+=test/str_test.c
-TEST_SRC+=test/hash_test.c
-TEST_SRC+=test/symb_test.c
-TEST_SRC+=test/stack_test.c
+TEST_SRC=$(wildcard test/*_test.c)
 
 TARGET=satchmo
 TEST_TARGET=bin/run_tests
@@ -26,6 +22,9 @@ OBJ=$(patsubst src/%.c,bin/%.o,$(SRC))
 TEST_OBJ=$(patsubst test/%.c,bin/%.o,$(TEST_SRC))
 
 all: $(TARGET) test
+
+echo:
+	echo "=== $(TEST_OBJ)"
 
 $(TARGET): $(OBJ) bin/main.o bin/lex.yy.o bin/parser.o
 	$(CC) $(CC_OPTS) -o $@ $^
@@ -50,14 +49,14 @@ test: $(TEST_TARGET)
 $(TEST_TARGET): bin/test_main.o $(OBJ) $(TEST_OBJ)
 	$(CC) $(CC_OPTS) -o $@ $^
 
-bin/test_main.o: test/test_main.c bin test/_test.h test/_test_exec.c
+bin/test_main.o: test/test_main.c bin test/_test_head.h test/_test_exec.c
 	$(CC) $(CC_OPTS) -c -o $@ $<
 
 bin/%_test.o: test/%_test.c bin
 	$(CC) $(CC_OPTS) $(TEST_OPTS) -c -o $@ $<
 
 # Generate test header of all methods
-test/_test.h: test/*.c
+test/_test_head.h: test/*.c
 	cat test/*.c | grep "void test_" | sed -e "s/{/;/g" > $@
 
 # Generate method calls to all test methods

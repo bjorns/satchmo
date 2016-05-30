@@ -3,7 +3,7 @@
 
 #include "hashtable.h"
 
-#include "assert.h"
+#include "test.h"
 
 void test_set_value() {
     hashtable_t *subject = new_hashtable(10);

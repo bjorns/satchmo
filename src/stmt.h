@@ -20,12 +20,12 @@ typedef struct {
     stmt_t *stmt_array;
 } stmt_list_t;
 
-stmt_t *new_statement(expr_t *expr);
+stmt_t *new_stmt(expr_t *expr);
 
 asign_t *new_assignment(lval_t *lval, expr_t *rval);
 stmt_t *new_asignment_stmt(asign_t *asign);
 
-stmt_list_t *new_statement_list(stmt_t *stmt);
+stmt_list_t *new_stmt_list(stmt_t *stmt);
 stmt_list_t *append_stmt_list(stmt_list_t *list, stmt_t *stmt);
 
 #endif
