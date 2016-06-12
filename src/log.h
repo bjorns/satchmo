@@ -5,5 +5,9 @@
 
 bool debug;
 
-#define log(msg, ...) if (debug) fprintf(stderr, msg "\n", ##__VA_ARGS__)
-#define error(msg, ...) fprintf(stderr, "error: " msg "\n", ##__VA_ARGS__)
+FILE *_logfile;
+
+void init_log(const char* filename);
+
+#define log(msg, ...) if (debug) fprintf(_logfile, msg "\n", ##__VA_ARGS__)
+#define error(msg, ...) fprintf(_logfile, "error: " msg "\n", ##__VA_ARGS__)

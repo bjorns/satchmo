@@ -7,3 +7,4 @@ src/parser.h
 src/parser.c
 src/parser.output
 test/_*
+*.log

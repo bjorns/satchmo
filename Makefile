@@ -12,6 +12,7 @@ SRC+=src/hashtable.c
 SRC+=src/symbol.c
 SRC+=src/assert.c
 SRC+=src/stack.c
+SRC+=src/log.c
 
 TEST_SRC=$(wildcard test/*_test.c)
 
