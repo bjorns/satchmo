@@ -23,21 +23,18 @@ TEST_OBJ=$(patsubst test/%.c,bin/%.o,$(TEST_SRC))
 
 all: $(TARGET) test
 
-echo:
-	echo "=== $(TEST_OBJ)"
-
 $(TARGET): $(OBJ) bin/main.o bin/lex.yy.o bin/parser.o
 	$(CC) $(CC_OPTS) -o $@ $^
 
-bin/%.o: src/%.c bin
+bin/%.o: src/%.c
+	@mkdir -p bin
 	$(CC) $(CC_OPTS) -c -o $@ $<
 
-bin:
-	mkdir -p $@
 
-src/lex.yy.c: src/lang.lex src/parser.c
+src/lex.yy.c: src/lang.lex src/parser.h
 	flex --yylineno -o $@ $<
 
+src/parser.h: src/parser.c
 src/parser.c: src/lang.y
 	bison -d -v -o $@ $<
 
@@ -69,3 +66,5 @@ clean:
 	rm -f src/parser.c src/parser.h src/parser.output
 	rm -f $(TARGET)
 	rm -f test/_*
+
+.PHONY: all clean test
