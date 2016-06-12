@@ -1,12 +1,13 @@
-#ifndef STMT_H
-#define STMT_H
+#pragma once
 
 #include <stdint.h>
+
 #include "expr.h"
 
 typedef enum {
     ASIGN,
-    EXPR
+    EXPR,
+    FUNC,
 } stmt_type_t;
 
 typedef struct {
@@ -25,7 +26,6 @@ stmt_t *new_stmt(expr_t *expr);
 asign_t *new_assignment(lval_t *lval, expr_t *rval);
 stmt_t *new_asignment_stmt(asign_t *asign);
 
+stmt_list_t *empty_stmt_list();
 stmt_list_t *new_stmt_list(stmt_t *stmt);
 stmt_list_t *append_stmt_list(stmt_list_t *list, stmt_t *stmt);
-
-#endif

@@ -3,6 +3,7 @@ CC_OPTS=-Wall -std=c11 -O0 -g
 TEST_OPTS=-Isrc -Itest
 SRC=
 SRC+=src/expr.c
+SRC+=src/func.c
 SRC+=src/stmt.c
 SRC+=src/token.c
 SRC+=src/exec.c

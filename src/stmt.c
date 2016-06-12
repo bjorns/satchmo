@@ -33,6 +33,16 @@ asign_t *new_assignment(lval_t *lval, expr_t *rval) {
     return ret;
 }
 
+stmt_list_t *empty_stmt_list() {
+    log("Creating statement list");
+    stmt_t *data = (stmt_t*)calloc(INIT_SIZE, sizeof(stmt_t));
+    stmt_list_t *ret = (stmt_list_t*)calloc(1, sizeof(stmt_list_t));
+    ret->capacity = INIT_SIZE;
+    ret->size = 0;
+    ret->stmt_array = data;
+    return ret;
+}
+
 stmt_list_t *new_stmt_list(stmt_t *stmt) {
     log("Creating statement list");
     stmt_t *data = (stmt_t*)calloc(INIT_SIZE, sizeof(stmt_t));

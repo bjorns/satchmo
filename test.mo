@@ -1,3 +1,5 @@
-func2("hello \"world\"")
-     
-func3("foobar")
+func say(str) {
+    print(str)
+}
+
+say("hello \"world\"")

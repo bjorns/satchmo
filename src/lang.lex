@@ -5,13 +5,12 @@
     #include "expr.h"
     #include "stmt.h"
     #include "module.h"
-
+    #include "func.h"
+    
     #include "parser.h"
 %}
 
-T_NUMBER [0-9]+\.?[0-9]*
-T_TOKEN [a-z][a-z0-9_]*
-T_STR \"([^\"]|\\\")*\"
+T_FUNC func
 T_OP [+\-]
 T_EQ =
 T_NEWLINE \n
@@ -19,8 +18,19 @@ T_LPAREN \(
 T_RPAREN \)
 T_COMMA ,
 T_COMMENT #[^\n]+
+T_BLOCK_START \{
+T_BLOCK_END \}
+T_NUMBER [0-9]+\.?[0-9]*
+T_TOKEN [a-z][a-z0-9_]*
+T_STR \"([^\"]|\\\")*\"
 
 %%
+
+{T_FUNC} {
+    log("Found func");
+    return T_FUNC;
+}
+
 
 
 {T_NUMBER}    {
@@ -75,6 +85,16 @@ T_COMMENT #[^\n]+
 {T_COMMA} {
     log("Found comma");
     return T_COMMA;
+}
+
+{T_BLOCK_START} {
+    log("Found block start");
+    return T_BLOCK_START;
+}
+
+{T_BLOCK_END} {
+    log("Found block end");
+    return T_BLOCK_END;
 }
 
 [ \t]+
