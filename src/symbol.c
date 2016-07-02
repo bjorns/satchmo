@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "hashtable.h"
+#include "core/hashtable.h"
 #include "symbol.h"
 
 static const int INIT_SIZE = 128;

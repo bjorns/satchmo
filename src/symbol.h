@@ -1,9 +1,9 @@
 #pragma once
 
 #include "core/str.h"
+#include "core/hashtable.h"
 
 #include "stack.h"
-#include "hashtable.h"
 
 typedef enum {
     SYMB_FUNCTION,

@@ -1,16 +1,16 @@
 CC=clang
-CC_OPTS=-Wall -std=c11 -O0 -g
+CC_OPTS=-Wall -std=c11 -O0 -g -Isrc
 TEST_OPTS=-Isrc -Itest
 SRC=
 SRC+=src/core/log.c
 SRC+=src/core/str.c
+SRC+=src/core/hashtable.c
 SRC+=src/expr.c
 SRC+=src/func.c
 SRC+=src/stmt.c
 SRC+=src/token.c
 SRC+=src/exec.c
 SRC+=src/module.c
-SRC+=src/hashtable.c
 SRC+=src/symbol.c
 SRC+=src/assert.c
 SRC+=src/stack.c
