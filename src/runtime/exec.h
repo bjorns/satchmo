@@ -1,6 +1,6 @@
 #pragma once
 
-#include "module.h"
+#include "parser/module.h"
 #include "symbol.h"
 
 /**

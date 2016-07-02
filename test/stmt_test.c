@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "stmt.h"
+#include "parser/stmt.h"
 
 #include "test.h"
 

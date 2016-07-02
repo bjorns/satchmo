@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "module.h"
 #include "core/log.h"
+#include "parser/module.h"
 #include "runtime/exec.h"
 
 extern FILE *yyin;
