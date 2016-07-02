@@ -8,9 +8,9 @@ SRC+=src/core/hashtable.c
 SRC+=src/core/stack.c
 SRC+=src/parser/token.c
 SRC+=src/parser/expr.c
+SRC+=src/parser/func.c
 SRC+=src/runtime/exec.c
 
-SRC+=src/func.c
 SRC+=src/stmt.c
 SRC+=src/module.c
 SRC+=src/symbol.c
