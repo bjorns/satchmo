@@ -2,7 +2,7 @@
     #include "core/str.h"
     #include "core/log.h"
     #include "token.h"
-    #include "expr.h"
+    #include "parser/expr.h"
     #include "stmt.h"
     #include "module.h"
     #include "func.h"

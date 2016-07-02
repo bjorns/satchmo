@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-#include "expr.h"
+#include "parser/expr.h"
 
 typedef enum {
     ASIGN,

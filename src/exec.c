@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "core/log.h"
-#include "expr.h"
+#include "parser/expr.h"
 #include "exec.h"
 
 runtime_t *new_runtime() {

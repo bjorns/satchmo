@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include "core/log.h"
-#include "expr.h"
 #include "stmt.h"
 
 static const uint16_t INIT_SIZE = 32;

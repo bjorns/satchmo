@@ -6,7 +6,8 @@ SRC+=src/core/log.c
 SRC+=src/core/str.c
 SRC+=src/core/hashtable.c
 SRC+=src/core/stack.c
-SRC+=src/expr.c
+SRC+=src/parser/expr.c
+
 SRC+=src/func.c
 SRC+=src/stmt.c
 SRC+=src/token.c

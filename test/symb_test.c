@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "parser/expr.h"
 #include "symbol.h"
-#include "expr.h"
-
 #include "test.h"
 
 void test_create_symbol() {
