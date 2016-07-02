@@ -6,11 +6,11 @@ SRC+=src/core/log.c
 SRC+=src/core/str.c
 SRC+=src/core/hashtable.c
 SRC+=src/core/stack.c
+SRC+=src/parser/token.c
 SRC+=src/parser/expr.c
 
 SRC+=src/func.c
 SRC+=src/stmt.c
-SRC+=src/token.c
 SRC+=src/exec.c
 SRC+=src/module.c
 SRC+=src/symbol.c
@@ -26,7 +26,7 @@ TEST_OBJ=$(patsubst test/%.c,bin/%.o,$(TEST_SRC))
 
 all: $(TARGET) test
 
-$(TARGET): $(OBJ) bin/main.o bin/lex.yy.o bin/parser/parser.o
+$(TARGET): $(OBJ) bin/main.o bin/parser/lex.yy.o bin/parser/parser.o
 	$(CC) $(CC_OPTS) -o $@ $^
 
 bin/%.o: src/%.c
@@ -34,7 +34,7 @@ bin/%.o: src/%.c
 	$(CC) $(CC_OPTS) -c -o $@ $<
 
 
-src/lex.yy.c: src/parser/lang.lex src/parser/parser.h
+src/parser/lex.yy.c: src/parser/lang.lex src/parser/parser.h
 	flex --yylineno -o $@ $<
 
 src/parser/parser.h: src/parser/parser.c
@@ -65,7 +65,7 @@ test/_test_exec.c: test/*_test.c
 
 clean:
 	rm -rf bin/
-	rm -f src/lex.yy.c
+	rm -f src/parser/lex.yy.c
 	rm -f src/parser/parser.c src/parser/parser.h src/parser/parser.output
 	rm -f $(TARGET)
 	rm -f test/_*
