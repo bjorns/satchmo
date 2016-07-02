@@ -3,7 +3,7 @@
 #include "core/str.h"
 #include "core/hashtable.h"
 
-#include "stack.h"
+#include "core/stack.h"
 
 typedef enum {
     SYMB_FUNCTION,

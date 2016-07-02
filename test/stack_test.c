@@ -1,4 +1,4 @@
-#include "stack.h"
+#include "core/stack.h"
 #include "test.h"
 
 void test_stack() {

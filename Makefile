@@ -5,6 +5,7 @@ SRC=
 SRC+=src/core/log.c
 SRC+=src/core/str.c
 SRC+=src/core/hashtable.c
+SRC+=src/core/stack.c
 SRC+=src/expr.c
 SRC+=src/func.c
 SRC+=src/stmt.c
@@ -13,7 +14,6 @@ SRC+=src/exec.c
 SRC+=src/module.c
 SRC+=src/symbol.c
 SRC+=src/assert.c
-SRC+=src/stack.c
 
 TEST_SRC=$(wildcard test/*_test.c)
 
