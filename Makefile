@@ -25,7 +25,7 @@ TEST_OBJ=$(patsubst test/%.c,bin/%.o,$(TEST_SRC))
 
 all: $(TARGET) test
 
-$(TARGET): $(OBJ) bin/main.o bin/lex.yy.o bin/parser.o
+$(TARGET): $(OBJ) bin/main.o bin/lex.yy.o bin/parser/parser.o
 	$(CC) $(CC_OPTS) -o $@ $^
 
 bin/%.o: src/%.c
@@ -33,11 +33,11 @@ bin/%.o: src/%.c
 	$(CC) $(CC_OPTS) -c -o $@ $<
 
 
-src/lex.yy.c: src/lang.lex src/parser.h
+src/lex.yy.c: src/parser/lang.lex src/parser/parser.h
 	flex --yylineno -o $@ $<
 
-src/parser.h: src/parser.c
-src/parser.c: src/lang.y
+src/parser/parser.h: src/parser/parser.c
+src/parser/parser.c: src/parser/lang.y
 	bison -d -v -o $@ $<
 
 
@@ -65,7 +65,7 @@ test/_test_exec.c: test/*_test.c
 clean:
 	rm -rf bin/
 	rm -f src/lex.yy.c
-	rm -f src/parser.c src/parser.h src/parser.output
+	rm -f src/parser/parser.c src/parser/parser.h src/parser/parser.output
 	rm -f $(TARGET)
 	rm -f test/_*
 

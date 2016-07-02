@@ -7,7 +7,7 @@
     #include "module.h"
     #include "func.h"
 
-    #include "parser.h"
+    #include "parser/parser.h"
 %}
 
 T_FUNC func

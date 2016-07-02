@@ -3,8 +3,8 @@ bin
 lex.yy.c
 test.src
 satchmo
-src/parser.h
-src/parser.c
-src/parser.output
+src/parser/parser.h
+src/parser/parser.c
+src/parser/parser.output
 test/_*
 *.log
