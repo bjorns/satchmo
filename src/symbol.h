@@ -1,6 +1,7 @@
 #pragma once
 
-#include "str.h"
+#include "core/str.h"
+
 #include "stack.h"
 #include "hashtable.h"
 
@@ -13,6 +14,8 @@ typedef struct {
     str_t name;
     symbol_type_t type;
     void* object;
+
+    uint32_t refs;
 } symbol_t;
 
 typedef struct {

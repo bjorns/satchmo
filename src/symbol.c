@@ -12,6 +12,7 @@ symbol_t *new_symbol(str_t name, symbol_type_t type, void *object) {
     ret->name = name;
     ret->type = type;
     ret->object = object;
+    ret->refs = 0;
     return ret;
 }
 

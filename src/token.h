@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "str.h"
+#include "core/str.h"
 
 static const int MAX_ID_LEN = 1024;
 

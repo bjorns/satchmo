@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "core/str.h"
 #include "log.h"
-#include "str.h"
 #include "token.h"
 #include "expr.h"
 #include "stmt.h"

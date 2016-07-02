@@ -2,13 +2,13 @@ CC=clang
 CC_OPTS=-Wall -std=c11 -O0 -g
 TEST_OPTS=-Isrc -Itest
 SRC=
+SRC+=src/core/str.c
 SRC+=src/expr.c
 SRC+=src/func.c
 SRC+=src/stmt.c
 SRC+=src/token.c
 SRC+=src/exec.c
 SRC+=src/module.c
-SRC+=src/str.c
 SRC+=src/hashtable.c
 SRC+=src/symbol.c
 SRC+=src/assert.c
@@ -29,7 +29,7 @@ $(TARGET): $(OBJ) bin/main.o bin/lex.yy.o bin/parser.o
 	$(CC) $(CC_OPTS) -o $@ $^
 
 bin/%.o: src/%.c
-	@mkdir -p bin
+	@mkdir -p `dirname $@`
 	$(CC) $(CC_OPTS) -c -o $@ $<
 
 

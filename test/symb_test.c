@@ -3,7 +3,6 @@
 
 #include "symbol.h"
 #include "expr.h"
-#include "str.h"
 
 #include "test.h"
 

@@ -1,5 +1,3 @@
-#include "str.h"
-
 #include "test.h"
 
 void test_eq() {

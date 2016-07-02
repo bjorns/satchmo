@@ -1,5 +1,5 @@
 #pragma once
-#include "str.h"
+#include "core/str.h"
 
 struct hash_entry {
 	str_t key;

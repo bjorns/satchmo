@@ -1,12 +1,12 @@
 %{
+    #include "core/str.h"
     #include "log.h"
-    #include "str.h"
     #include "token.h"
     #include "expr.h"
     #include "stmt.h"
     #include "module.h"
     #include "func.h"
-    
+
     #include "parser.h"
 %}
 

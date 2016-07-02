@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
-#include "str.h"
+#include "core/str.h"
 
 void assert_streq(const char* expected, str_t value);
 

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "str.h"
+#include "core/str.h"
 
 void _macro_assert(const char *file, const int line, const char* msg, bool expr) {
     if (!expr) {
