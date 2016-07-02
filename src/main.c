@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "exec.h"
 #include "module.h"
 #include "core/log.h"
+#include "runtime/exec.h"
 
 extern FILE *yyin;
 
