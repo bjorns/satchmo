@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include "log.h"
+#include "core/log.h"
 #include "stack.h"
 
 static int STACK_STATUS_OK = 0;

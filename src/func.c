@@ -1,6 +1,6 @@
 #include <assert.h>
 
-#include "log.h"
+#include "core/log.h"
 #include "func.h"
 
 static int INIT_CAPACITY = 16;

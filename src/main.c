@@ -3,7 +3,7 @@
 
 #include "exec.h"
 #include "module.h"
-#include "log.h"
+#include "core/log.h"
 
 extern FILE *yyin;
 
@@ -13,7 +13,7 @@ bool debug = true;
 
 int main(int argc, char** argv) {
     init_log("satchmo.log");
-    
+
     if (argc < 2) {
         printf("Usage: lang <input>\n");
     }

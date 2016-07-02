@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "log.h"
+#include "core/log.h"
 #include "module.h"
 
 module_t *new_module(const char *name, stmt_list_t *stmt_list) {

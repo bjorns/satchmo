@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "log.h"
+#include "core/log.h"
 #include "token.h"
 
 var_t *new_var(str_t token) {

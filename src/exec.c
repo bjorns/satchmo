@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "log.h"
+#include "core/log.h"
 #include "expr.h"
 #include "exec.h"
 

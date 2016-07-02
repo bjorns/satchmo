@@ -1,6 +1,6 @@
 %{
     #include "core/str.h"
-    #include "log.h"
+    #include "core/log.h"
     #include "token.h"
     #include "expr.h"
     #include "stmt.h"

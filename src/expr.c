@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <stdint.h>
 
-#include "log.h"
+#include "core/log.h"
 #include "expr.h"
 
 lval_t *new_lval(var_t *var) {

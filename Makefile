@@ -2,6 +2,7 @@ CC=clang
 CC_OPTS=-Wall -std=c11 -O0 -g
 TEST_OPTS=-Isrc -Itest
 SRC=
+SRC+=src/core/log.c
 SRC+=src/core/str.c
 SRC+=src/expr.c
 SRC+=src/func.c
@@ -13,7 +14,6 @@ SRC+=src/hashtable.c
 SRC+=src/symbol.c
 SRC+=src/assert.c
 SRC+=src/stack.c
-SRC+=src/log.c
 
 TEST_SRC=$(wildcard test/*_test.c)
 
