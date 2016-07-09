@@ -89,7 +89,7 @@ statement_list:     { $$ = empty_stmt_list() }
 
 statement: expression T_NEWLINE { $$ = new_stmt($1); }
         | assignment T_NEWLINE { $$ = new_asignment_stmt($1); }
-        | function T_NEWLINE { $$ = new_func_decl_stmt($1); }
+        | function T_NEWLINE { $$ = new_funcdef_stmt($1); }
         ;
 
 assignment: left_val T_EQ expression { $$ = new_assignment($1, $3); }

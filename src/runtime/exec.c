@@ -3,6 +3,7 @@
 
 #include "core/log.h"
 #include "parser/expr.h"
+#include "parser/func.h"
 #include "runtime/exec.h"
 
 runtime_t *new_runtime() {
@@ -22,14 +23,18 @@ runtime_error_t exec_expr(runtime_t *runtime, expr_t* expr) {
         log("eval: Immediate value %d", *value);
         return OK;
     } else if (expr->type == IMMEDIATE_STR) {
-
+        return INTERPRETER_ERROR;
     } else if (expr->type == DIRECT) {
-
+        return INTERPRETER_ERROR;
     } else {
         error("Unexpected expression type %d", expr->type);
         return INTERPRETER_ERROR;
     }
     return OK;
+}
+
+runtime_error_t exec_funcdef(runtime_t *runtime, func_t* expr) {
+    return INTERPRETER_ERROR;
 }
 
 runtime_error_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
@@ -39,6 +44,9 @@ runtime_error_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
     } else if (stmt->type == EXPR) {
         log("Executing Expression statement");
         return exec_expr(runtime, (expr_t*)stmt->data);
+    } else if (stmt->type == FUNC) {
+        log("Executing Function statement");
+        return exec_funcdef(runtime, (func_t*)stmt->data);
     } else {
         error("Unknown statement type %d", stmt->type);
         return INTERPRETER_ERROR;

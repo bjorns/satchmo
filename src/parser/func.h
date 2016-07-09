@@ -15,7 +15,7 @@ typedef struct {
     stmt_list_t *block;
 } func_t;
 
-stmt_t *new_func_decl_stmt(func_t *func);
+stmt_t *new_funcdef_stmt(func_t *func);
 
 paramlist_t *new_paramlist(var_t *var);
 paramlist_t *append_paramlist(paramlist_t *list, var_t *arg);
