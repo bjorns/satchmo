@@ -1,16 +1,8 @@
 #pragma once
 
-#include "parser/module.h"
 #include "symbol.h"
-
-/**
- * A runtime generated error
- */
-typedef enum {
-    OK = 0,
-    SCRIPT_ERROR,
-    INTERPRETER_ERROR
-} runtime_error_t;
+#include "parser/module.h"
+#include "runtime/error.h"
 
 typedef struct {
     symbtable_t *symbtable;

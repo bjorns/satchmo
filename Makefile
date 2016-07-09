@@ -11,6 +11,8 @@ SRC+=src/parser/expr.c
 SRC+=src/parser/func.c
 SRC+=src/parser/module.c
 SRC+=src/parser/stmt.c
+
+SRC+=src/runtime/error.c
 SRC+=src/runtime/exec.c
 
 SRC+=src/symbol.c

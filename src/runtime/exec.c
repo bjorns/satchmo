@@ -4,6 +4,7 @@
 #include "core/log.h"
 #include "parser/expr.h"
 #include "parser/func.h"
+
 #include "runtime/exec.h"
 
 runtime_t *new_runtime() {
@@ -14,27 +15,27 @@ runtime_t *new_runtime() {
 
 runtime_error_t exec_assignment(runtime_t *runtime, asign_t* asign) {
     error("Assignment not implemented");
-    return INTERPRETER_ERROR;
+    return new_error(INTERPRETER_ERROR);
 }
 
 runtime_error_t exec_expr(runtime_t *runtime, expr_t* expr) {
     if (expr->type == IMMEDIATE_NUM) {
         number_t *value = (number_t*)expr->expr;
         log("eval: Immediate value %d", *value);
-        return OK;
+        return new_error(OK);
     } else if (expr->type == IMMEDIATE_STR) {
-        return INTERPRETER_ERROR;
+        return new_error(INTERPRETER_ERROR);
     } else if (expr->type == DIRECT) {
-        return INTERPRETER_ERROR;
+        return new_error(INTERPRETER_ERROR);
     } else {
         error("Unexpected expression type %d", expr->type);
-        return INTERPRETER_ERROR;
+        return new_error(INTERPRETER_ERROR);
     }
-    return OK;
+    return new_error(OK);
 }
 
 runtime_error_t exec_funcdef(runtime_t *runtime, func_t* expr) {
-    return INTERPRETER_ERROR;
+    return new_error(INTERPRETER_ERROR);
 }
 
 runtime_error_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
@@ -49,9 +50,9 @@ runtime_error_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
         return exec_funcdef(runtime, (func_t*)stmt->data);
     } else {
         error("Unknown statement type %d", stmt->type);
-        return INTERPRETER_ERROR;
+        return new_error(INTERPRETER_ERROR);
     }
-    return OK;
+    return new_error(OK);
 }
 
 runtime_error_t exec_stmt_list(runtime_t *runtime, stmt_list_t *stmt_list) {
@@ -61,11 +62,11 @@ runtime_error_t exec_stmt_list(runtime_t *runtime, stmt_list_t *stmt_list) {
         stmt_t stmt = stmt_list->stmt_array[i];
         log("  executing statement");
         runtime_error_t error = exec_stmt(runtime, &stmt);
-        if (error != OK) {
+        if (error.type != OK) {
             return error;
         }
     }
-    return OK;
+    return new_error(OK);
 }
 
 runtime_error_t execute(runtime_t *runtime, module_t *module) {
