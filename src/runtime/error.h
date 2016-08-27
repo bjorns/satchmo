@@ -20,6 +20,4 @@ typedef struct {
     str_t message;
 } runtime_error_t;
 
-extern runtime_error_t last_error;
-
 runtime_error_t new_error(error_type_t);

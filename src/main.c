@@ -26,13 +26,13 @@ int main(int argc, char** argv) {
 
     runtime_t *runtime = new_runtime();
     log("Executing module %s", module->name);
-    runtime_error_t error = execute(runtime, module);
+    result_t result = execute(runtime, module);
 
-    if (error.type != OK) {
+    if (result.error.type != OK) {
         error("Failed to execute %s", filename);
     }
 
     fclose(f);
 
-    return error.type;
+    return result.error.type;
 }

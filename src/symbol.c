@@ -44,7 +44,7 @@ void put_symbol(symbtable_t *table, symbol_t *symbol) {
 }
 
 symbol_t *get_symbol(symbtable_t *table, str_t name) {
-
+    log("Looking up symbol %s", name.data);
     stck_t *stack = table->stack;
     int index = stack->size - 1;
     while(index >= 0) {
