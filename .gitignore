@@ -8,3 +8,5 @@ src/parser/parser.c
 src/parser/parser.output
 test/_*
 *.log
+.idea
+*.iml

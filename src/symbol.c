@@ -2,6 +2,7 @@
 #include <assert.h>
 
 #include "core/hashtable.h"
+#include "core/log.h"
 #include "symbol.h"
 
 static const int INIT_SIZE = 128;
@@ -37,6 +38,7 @@ void pop_frame(symbtable_t *table) {
 }
 
 void put_symbol(symbtable_t *table, symbol_t *symbol) {
+    log("Storing symbol %s", symbol->name);
     hashtable_t *frame = (hashtable_t*)stack_peek(table->stack);
     ht_set(frame, symbol->name, symbol);
 }

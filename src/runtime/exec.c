@@ -3,7 +3,6 @@
 
 #include "core/log.h"
 #include "parser/expr.h"
-#include "parser/func.h"
 
 #include "runtime/value.h"
 #include "runtime/exec.h"
@@ -14,50 +13,9 @@ runtime_t *new_runtime() {
     return ret;
 }
 
-runtime_error_t exec_assignment(runtime_t *runtime, asign_t* asign) {
-    error("Assignment not implemented");
-    return new_error(INTERPRETER_ERROR);
-}
-
-value_t *eval_expr(runtime_t *runtime, expr_t* expr) {
-    if (expr->type == IMMEDIATE_NUM) {
-        number_t *value = (number_t*)expr->expr;
-        log("eval: Immediate value %d", *value);
-        return new_value(NUMBER_VALUE, (void*)value);
-    } else if (expr->type == IMMEDIATE_STR) {
-        last_error = new_error(INTERPRETER_ERROR);
-        return NULL;
-    } else if (expr->type == DIRECT) {
-        last_error = new_error(INTERPRETER_ERROR);
-        return NULL;
-    } else {
-        error("Unexpected expression type %d", expr->type);
-        last_error = new_error(INTERPRETER_ERROR);
-        return NULL;
-    }
-}
-
-runtime_error_t exec_funcdef(runtime_t *runtime, func_t* expr) {
-    return new_error(INTERPRETER_ERROR);
-}
-
-runtime_error_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
-    if (stmt->type == ASIGN) {
-        log("Executing assignment statement");
-        return exec_assignment(runtime, (asign_t*)stmt->data);
-    } else if (stmt->type == EXPR) {
-        log("Executing Expression statement");
-        value_t *value = eval_expr(runtime, (expr_t*)stmt->data);
-        free(value);
-        return new_error(OK);
-    } else if (stmt->type == FUNC) {
-        log("Executing Function statement");
-        return exec_funcdef(runtime, (func_t*)stmt->data);
-    } else {
-        error("Unknown statement type %d", stmt->type);
-        return new_error(INTERPRETER_ERROR);
-    }
-    return new_error(OK);
+runtime_error_t execute(runtime_t *runtime, module_t *module) {
+    runtime_error_t err = exec_stmt_list(runtime, module->stmt_list);
+    return err;
 }
 
 runtime_error_t exec_stmt_list(runtime_t *runtime, stmt_list_t *stmt_list) {
@@ -74,7 +32,83 @@ runtime_error_t exec_stmt_list(runtime_t *runtime, stmt_list_t *stmt_list) {
     return new_error(OK);
 }
 
-runtime_error_t execute(runtime_t *runtime, module_t *module) {
-    runtime_error_t err = exec_stmt_list(runtime, module->stmt_list);
-    return err;
+runtime_error_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
+    if (stmt->type == ASIGN) {
+        log("Executing assignment statement");
+        return exec_assignment(runtime, (asign_t*)stmt->data);
+    } else if (stmt->type == EXPR) {
+        log("Executing Expression statement");
+        value_t *value = eval_expr(runtime, (expr_t*)stmt->data);
+        free(value);
+        return new_error(OK);
+    } else if (stmt->type == FUNC) {
+        log("Executing Function definition statement");
+        return exec_funcdef(runtime, (func_t*)stmt->data);
+    } else {
+        error("Unknown statement type %d", stmt->type);
+        return new_error(INTERPRETER_ERROR);
+    }
+    return new_error(OK);
+}
+
+runtime_error_t exec_assignment(runtime_t *runtime, asign_t* asign) {
+    error("Assignment not implemented");
+    return new_error(INTERPRETER_ERROR);
+}
+
+runtime_error_t exec_funcdef(runtime_t *runtime, func_t* funcdef) {
+    // TODO: Test for predefined
+    symbol_t *func_symb = new_symbol(funcdef->name, SYMB_FUNCTION, funcdef);
+    put_symbol(runtime->symbtable, func_symb);
+    return new_error(OK);
+}
+
+value_t *eval_expr(runtime_t *runtime, expr_t* expr) {
+    if (expr->type == IMMEDIATE_NUM) {
+        number_t *value = (number_t*)expr->expr;
+        log("eval: Immediate value %d", *value);
+        return new_value(NUMBER_VALUE, (void*)value);
+    } else if (expr->type == IMMEDIATE_STR) {
+        last_error = new_error(INTERPRETER_ERROR);
+        return NULL;
+    } else if (expr->type == DIRECT) {
+        last_error = new_error(INTERPRETER_ERROR);
+        return NULL;
+    } else if (expr->type == FUNCALL) {
+        funcall_t *funcall = expr->expr;
+        value_t* value = eval_funcall(runtime, funcall);
+        return value;
+    } else {
+        error("Unexpected expression type %d", expr->type);
+        last_error = new_error(INTERPRETER_ERROR);
+        return NULL;
+    }
+}
+
+value_t *eval_funcall(runtime_t *runtime, funcall_t *funcall) {
+    symbtable_t *table = runtime->symbtable;
+    symbol_t *func_symb = get_symbol(table, funcall->id->name);
+    assert(func_symb->type == SYMB_FUNCTION);
+    func_t *funcdef = (func_t*)func_symb->object;
+
+    arglist_t *arglist = funcall->args;
+    assert(arglist->size >= 0);
+    assert(arglist->capacity >= arglist->size);
+
+    push_frame(table);
+    for (int i=0; i < arglist->size; ++i) {
+        expr_t arg_expr = arglist->args[i];
+        value_t *param_value = eval_expr(runtime, &arg_expr);
+
+        var_t param = funcdef->params->args[i];
+        symbol_t *param_symbol = new_symbol(param.name, SYMB_OBJECT, param_value);
+
+        put_symbol(table, param_symbol);
+    }
+
+    stmt_list_t *block = funcdef->block;
+    runtime_error_t error = exec_stmt_list(runtime, block);
+
+    pop_frame(table);
+    return NULL;
 }
