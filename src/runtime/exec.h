@@ -25,3 +25,5 @@ result_t exec_funcdef(runtime_t *runtime, func_t* funcdef);
 
 result_t eval_expr(runtime_t *runtime, expr_t* expr);
 result_t eval_funcall(runtime_t *runtime, funcall_t *funcall);
+
+result_t new_result(runtime_error_t error, value_t *value);

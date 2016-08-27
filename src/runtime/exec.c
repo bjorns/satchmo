@@ -5,6 +5,7 @@
 #include "parser/expr.h"
 
 #include "runtime/value.h"
+#include "runtime/builtin.h"
 #include "runtime/exec.h"
 
 runtime_t *new_runtime() {
@@ -95,6 +96,11 @@ result_t eval_expr(runtime_t *runtime, expr_t* expr) {
 
 result_t eval_funcall(runtime_t *runtime, funcall_t *funcall) {
     symbtable_t *table = runtime->symbtable;
+
+    if (is_builtin_funcall(funcall)) {
+        return exec_builtin_funcall(runtime, funcall);
+    }
+
     symbol_t *func_symb = get_symbol(table, funcall->id->name);
     if (func_symb == NULL) {
         return new_result(new_error(INTERPRETER_ERROR), NULL);
