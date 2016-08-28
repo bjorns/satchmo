@@ -1,3 +1,5 @@
+%option nounput
+
 %{
     #include "core/str.h"
     #include "core/log.h"
@@ -8,6 +10,7 @@
     #include "func.h"
 
     #include "parser/parser.h"
+
 %}
 
 T_FUNC func
@@ -103,6 +106,8 @@ T_STR \"([^\"]|\\\")*\"
 %%
 
 int yywrap() {
+    (void)input; // Suppress warning of unused function
+
     log("End of program");
     return 1;
 }
