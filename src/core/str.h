@@ -21,7 +21,9 @@ str_t str(const char* value);
 /**
  * Copy string, including char buffer
  */
-str_t str_copy(str_t str);
+void str_copy(str_t *dst, str_t *src);
+
+
 
 /**
  * Returns true if string buffers are equal

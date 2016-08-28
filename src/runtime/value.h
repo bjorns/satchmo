@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/str.h"
 #include "runtime/gc.h"
 
 typedef enum {
@@ -14,3 +15,4 @@ typedef struct {
 } value_t;
 
 value_t *new_value(value_type_t type, void *data);
+value_t *new_str_value(str_t *str);

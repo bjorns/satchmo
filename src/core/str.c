@@ -21,12 +21,10 @@ str_t str(const char *value) {
     return new_str(value, strlen(value));
 }
 
-str_t str_copy(str_t str) {
-    str_t ret;
-    ret.data = strdup(str.data);
-    assert(ret.data != NULL);
-    ret.length = str.length;
-    return ret;
+void str_copy(str_t *dst, str_t *src) {
+    dst->data = strdup(src->data);
+    assert(dst->data != NULL);
+    dst->length = src->length;
 }
 
 bool str_eq(str_t x, str_t y) {

@@ -18,9 +18,9 @@ void test_substr() {
 
 void test_copy() {
     str_t x = str("foobar");
-    str_t copy = str_copy(x);
+    str_t copy;
+    str_copy(&copy, &x);
     ASSERT(x.data != copy.data);
     ASSERT(x.length == 6);
     assert_streq("foobar", copy);
-
 }

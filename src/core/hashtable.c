@@ -57,7 +57,7 @@ static hash_entry_t *ht_newpair(str_t key, void *value) {
         return NULL;
     }
 
-    newpair->key = str_copy(key);
+    str_copy(&newpair->key, &key);
     newpair->value = value;
 
     newpair->next = NULL;

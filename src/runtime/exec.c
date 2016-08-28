@@ -78,8 +78,9 @@ result_t eval_expr(runtime_t *runtime, expr_t* expr) {
         log("eval: Immediate value %d", *value);
         return new_result(new_error(OK), new_value(NUMBER_VALUE, (void*)value));
     } else if (expr->type == IMMEDIATE_STR) {
-        runtime_error_t error = new_error(INTERPRETER_ERROR);
-        return new_result(error, NULL);
+        str_t *str = expr->expr;
+        value_t *value = new_str_value(str);
+        return new_result(new_error(OK), value);
     } else if (expr->type == DIRECT) {
         runtime_error_t err = new_error(INTERPRETER_ERROR);
         return new_result(err, NULL);
