@@ -9,7 +9,7 @@ stmt_t *new_funcdef_stmt(func_t *func) {
     stmt_t *ret = (stmt_t*)malloc(sizeof(stmt_t));
     ret->type = FUNC;
     ret->data = (void*)func;
-    log("Function declaration statement created");
+    parselog("Function declaration statement created");
     return ret;
 }
 

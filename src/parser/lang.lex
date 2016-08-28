@@ -11,7 +11,7 @@
 
     #include "parser/parser.h"
 
-    #define lexlog(msg, ...) log("lexer:%d\n  " msg, yylineno, ##__VA_ARGS__)
+    #define lexlog(msg, ...) log("lexer@%d: " msg, yylineno, ##__VA_ARGS__)
 
 %}
 

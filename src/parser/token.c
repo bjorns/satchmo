@@ -14,6 +14,6 @@ var_t *new_var(str_t token) {
     var_t *ret = (var_t*)malloc(sizeof(var_t));
     ret->name = token;
 
-    log("Created variable %s", ret->name.data);
+    parselog("identifier %s", ret->name.data);
     return ret;
 }

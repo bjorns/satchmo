@@ -8,7 +8,7 @@
 #include "expr.h"
 
 lval_t *new_lval(var_t *var) {
-    log("Creating lval");
+    parselog("Creating lval");
     lval_t *ret = (lval_t*)malloc(sizeof(lval_t));
     ret->var = var;
     return ret;
@@ -16,7 +16,7 @@ lval_t *new_lval(var_t *var) {
 
 number_t *parse_number(const char* str) {
     number_t val = (number_t)atoi(str);
-    log("Parsed number %d", val);
+    parselog("Parsed number %d", val);
     number_t *ret = (number_t*)malloc(sizeof(number_t));
     *ret = val;
     return ret;
@@ -26,12 +26,12 @@ op_t parse_operator(const char* str) {
     if (0 == strcmp("+", str)) {
         return ADD;
     }
-    log("error: Unknown operator %s", str);
+    parselog("error: Unknown operator %s", str);
     return ADD;
 }
 
 expr_t *compound_expr(op_t op, expr_t *left, expr_t *right) {
-    log("Parsing compound expression...");
+    parselog("Parsing compound expression...");
     comp_expr_t *expr = (comp_expr_t*)malloc(sizeof(comp_expr_t));
     expr->operator = op;
     expr->left = (struct expr *)left;
@@ -45,7 +45,7 @@ expr_t *compound_expr(op_t op, expr_t *left, expr_t *right) {
 }
 
 funcall_t *new_funcall(var_t* var, arglist_t *args) {
-    log("New funcall %s()", var->name.data);
+    parselog("New funcall %s()", var->name.data);
     funcall_t *ret = (funcall_t*)malloc(sizeof(funcall_t));
     ret->id = var;
     ret->args = args;
