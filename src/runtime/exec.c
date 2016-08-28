@@ -76,9 +76,10 @@ result_t eval_expr(runtime_t *runtime, expr_t* expr) {
     if (expr->type == IMMEDIATE_NUM) {
         number_t *value = (number_t*)expr->expr;
         log("eval: Immediate value %d", *value);
-        return new_result(new_error(OK), new_value(NUMBER_VALUE, (void*)value));
+        return new_result(new_error(OK), new_value(VALUE_TYPE_NUMBER, (void*)value));
     } else if (expr->type == IMMEDIATE_STR) {
         str_t *str = expr->expr;
+        validate_str(str);
         value_t *value = new_str_value(str);
         return new_result(new_error(OK), value);
     } else if (expr->type == DIRECT) {

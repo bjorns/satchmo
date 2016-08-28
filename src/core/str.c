@@ -7,22 +7,32 @@
 #include "str.h"
 
 /**
- * Create a new string object.
+ * Create new string object
  */
-str_t new_str(const char *data, uint16_t len) {
-    str_t ret;
-    ret.data = (char*)calloc(len, sizeof(char));
-    memcpy(ret.data, data, len * sizeof(char));
-    ret.length = len;
-    return ret;
-}
-
 str_t str(const char *value) {
     return new_str(value, strlen(value));
 }
 
+/**
+ * Create a new string object.
+ */
+str_t new_str(const char *data, size_t len) {
+    str_t ret;
+    ret.data = (char*)calloc(len + 1, sizeof(char));
+    strlcpy(ret.data, data, len + 1);
+    ret.length = len;
+    return ret;
+}
+
+/**
+ * TODO: return result_t
+ */
 void str_copy(str_t *dst, str_t *src) {
-    dst->data = strdup(src->data);
+    if (src->length <= 0) {
+        return;
+    }
+    dst->data = (char*)calloc(src->length + 1, sizeof(char));
+    strlcpy(dst->data, src->data, src->length + 1);
     assert(dst->data != NULL);
     dst->length = src->length;
 }
@@ -45,4 +55,9 @@ str_t substr(str_t str, uint16_t start, uint16_t end) {
     ret.data = str.data + start;
     ret.length = end - start;
     return ret;
+}
+
+void validate_str(str_t *str) {
+    assert(str->length >= 0);
+    assert(str->data != NULL);
 }

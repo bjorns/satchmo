@@ -33,7 +33,7 @@ result_t builtin_print(runtime_t *runtime, arglist_t *arglist) {
     }
 
     value_t *value = result.value;
-    if (value->type != STRING_VALUE) {
+    if (value->type != VALUE_TYPE_STRING) {
         return new_result(new_error(SCRIPT_ERROR), NULL);
     }
 

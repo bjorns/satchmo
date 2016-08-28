@@ -4,8 +4,8 @@
 #include "runtime/gc.h"
 
 typedef enum {
-    STRING_VALUE,
-    NUMBER_VALUE
+    VALUE_TYPE_STRING,
+    VALUE_TYPE_NUMBER
 } value_type_t;
 
 typedef struct {

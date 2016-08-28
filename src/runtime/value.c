@@ -13,7 +13,7 @@ value_t *new_value(value_type_t type, void *data) {
 
 value_t *new_str_value(str_t *str) {
     value_t *ret = (value_t*)calloc(1, sizeof(value_t));
-    ret->type = STRING_VALUE;
+    ret->type = VALUE_TYPE_STRING;
     str_t *strcopy = (str_t*)calloc(1, sizeof(str_t));
     str_copy(strcopy, str);
     ret->data = (void*)strcopy;

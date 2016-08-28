@@ -10,7 +10,8 @@ void test_set_value() {
 
     ht_set(subject, str("foobar"), "baz");
 
-    assert_streq("baz", str((const char*)ht_get(subject, str("foobar"))));
+    const char *retreived = (const char*)ht_get(subject, str("foobar"));
+    assert_streq("baz", str(retreived));
 }
 
 void assert_result(const char *expected, void* data) {

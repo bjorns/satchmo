@@ -5,13 +5,13 @@
 
 typedef struct {
     char *data;
-    uint16_t length;
+    size_t length;
 } str_t;
 
 /**
  * Create new string
  */
-str_t new_str(const char *data, uint16_t len);
+str_t new_str(const char *data, size_t len);
 
 /**
  * New string, implicity length
@@ -34,3 +34,9 @@ bool str_eq(str_t x, str_t y);
  * Returns substring including start but not end character
  */
 str_t substr(str_t str, uint16_t start, uint16_t end);
+
+
+/**
+ * Debugging tool, validate that string has data and metadata.
+ */
+void validate_str(str_t *str);

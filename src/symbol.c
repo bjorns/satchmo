@@ -38,7 +38,7 @@ void pop_frame(symbtable_t *table) {
 }
 
 void put_symbol(symbtable_t *table, symbol_t *symbol) {
-    log("Storing symbol %s", symbol->name);
+    log("Storing symbol %s", symbol->name.data);
     hashtable_t *frame = (hashtable_t*)stack_peek(table->stack);
     ht_set(frame, symbol->name, symbol);
 }
