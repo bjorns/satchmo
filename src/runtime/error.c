@@ -1,10 +1,15 @@
 #include "runtime/error.h"
 
-runtime_error_t last_error;
 
-runtime_error_t new_error(error_type_t type) {
+runtime_error_t new_error(error_type_t type, const char *message) {
     runtime_error_t ret;
     ret.type = type;
-    ret.message = str("Unknown error");
+    ret.message = str(message);
+    return ret;
+}
+
+runtime_error_t ok() {
+    runtime_error_t ret;
+    ret.type = OK;
     return ret;
 }

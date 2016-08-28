@@ -20,4 +20,5 @@ typedef struct {
     str_t message;
 } runtime_error_t;
 
-runtime_error_t new_error(error_type_t);
+runtime_error_t new_error(error_type_t type, const char *message);
+runtime_error_t ok();

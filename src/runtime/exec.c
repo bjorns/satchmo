@@ -39,7 +39,7 @@ result_t exec_stmt_list(runtime_t *runtime, stmt_list_t *stmt_list) {
             return result;
         }
     }
-    return new_result(new_error(OK), result.value);
+    return new_result(ok(), result.value);
 }
 
 result_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
@@ -56,43 +56,67 @@ result_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
         return exec_funcdef(runtime, (func_t*)stmt->data);
     } else {
         error("Unknown statement type %d", stmt->type);
-        return new_result(new_error(INTERPRETER_ERROR), NULL);
+        return new_result(new_error(INTERPRETER_ERROR, "Unknown statement type"), NULL);
     }
 }
 
 result_t exec_assignment(runtime_t *runtime, asign_t* asign) {
     error("Assignment not implemented");
-    return new_result(new_error(INTERPRETER_ERROR), NULL);
+    return new_result(new_error(INTERPRETER_ERROR, "Assignment not implemented"), NULL);
 }
 
 result_t exec_funcdef(runtime_t *runtime, func_t* funcdef) {
     // TODO: Test for predefined
     symbol_t *func_symb = new_symbol(funcdef->name, SYMB_FUNCTION, funcdef);
     put_symbol(runtime->symbtable, func_symb);
-    return new_result(new_error(OK), NULL);
+    return new_result(ok(), NULL);
 }
 
+/**
+ * Translate from parser types to runtime types in the given runtime.
+ */
 result_t eval_expr(runtime_t *runtime, expr_t* expr) {
     if (expr->type == IMMEDIATE_NUM) {
         number_t *value = (number_t*)expr->expr;
         log("eval: Immediate value %d", *value);
-        return new_result(new_error(OK), new_value(VALUE_TYPE_NUMBER, (void*)value));
+        return new_result(ok(), new_value(VALUE_TYPE_NUMBER, (void*)value));
     } else if (expr->type == IMMEDIATE_STR) {
         str_t *str = expr->expr;
         validate_str(str);
         value_t *value = new_str_value(str);
-        return new_result(new_error(OK), value);
+        return new_result(ok(), value);
     } else if (expr->type == DIRECT) {
-        runtime_error_t err = new_error(INTERPRETER_ERROR);
-        return new_result(err, NULL);
+        var_t *var = (var_t*)expr->expr;
+        str_t name = var->name;
+        symbol_t *symbol = get_symbol(runtime->symbtable, name);
+        if (symbol == NULL) {
+            error("Could not locate symbol %s", name.data);
+            runtime_error_t err = new_error(INTERPRETER_ERROR, "Could not find symbol");
+            return new_result(err, NULL);
+        }
+        assert(str_eq(name, symbol->name));
+        return eval_symbol(runtime, symbol);
     } else if (expr->type == FUNCALL) {
         funcall_t *funcall = expr->expr;
         result_t result = eval_funcall(runtime, funcall);
         return result;
     } else {
         error("Unexpected expression type %d", expr->type);
-        runtime_error_t err = new_error(INTERPRETER_ERROR);
+        runtime_error_t err = new_error(INTERPRETER_ERROR, "Unexpected expression type");
         return new_result(err, NULL);
+    }
+}
+
+result_t eval_symbol(runtime_t *runtime, symbol_t *symbol) {
+    if (symbol->type == SYMB_FUNCTION) {
+        // Not implemented
+        return new_result(new_error(INTERPRETER_ERROR, "Not implemented"), NULL);
+    } else if (symbol->type == SYMB_OBJECT) {
+
+        value_t *value = symbol->object;
+        return new_result(ok(), value);
+    } else {
+        return new_result(new_error(INTERPRETER_ERROR, "Unknown error"), NULL);
     }
 }
 
@@ -105,7 +129,7 @@ result_t eval_funcall(runtime_t *runtime, funcall_t *funcall) {
 
     symbol_t *func_symb = get_symbol(table, funcall->id->name);
     if (func_symb == NULL) {
-        return new_result(new_error(INTERPRETER_ERROR), NULL);
+        return new_result(new_error(INTERPRETER_ERROR, "Failed to locate function"), NULL);
     }
     assert(func_symb->type == SYMB_FUNCTION);
     func_t *funcdef = (func_t*)func_symb->object;
