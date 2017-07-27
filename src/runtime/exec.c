@@ -28,12 +28,11 @@ result_t new_result(runtime_error_t error, value_t *value) {
 
 result_t exec_stmt_list(runtime_t *runtime, stmt_list_t *stmt_list) {
     assert(stmt_list != NULL);
-    log("executing statement list");
+    execlog("executing statement list");
 
     result_t result;
     for (uint16_t i=0; i < stmt_list->size; ++i) {
         stmt_t stmt = stmt_list->stmt_array[i];
-        log("  executing statement");
         result = exec_stmt(runtime, &stmt);
         if (result.error.type != OK) {
             return result;
@@ -44,15 +43,15 @@ result_t exec_stmt_list(runtime_t *runtime, stmt_list_t *stmt_list) {
 
 result_t exec_stmt(runtime_t *runtime, stmt_t *stmt) {
     if (stmt->type == ASIGN) {
-        log("Executing assignment statement");
+        execlog("Executing assignment statement");
         return exec_assignment(runtime, (asign_t*)stmt->data);
     } else if (stmt->type == EXPR) {
-        log("Executing Expression statement");
+        execlog("Executing Expression statement");
         result_t result = eval_expr(runtime, (expr_t*)stmt->data);
         free(result.value);
         return result;
     } else if (stmt->type == FUNC) {
-        log("Executing Function definition statement");
+        execlog("Executing Function definition statement");
         return exec_funcdef(runtime, (func_t*)stmt->data);
     } else {
         error("Unknown statement type %d", stmt->type);
@@ -76,9 +75,9 @@ result_t exec_funcdef(runtime_t *runtime, func_t* funcdef) {
  * Translate from parser types to runtime types in the given runtime.
  */
 result_t eval_expr(runtime_t *runtime, expr_t* expr) {
+    execlog("Evaluating %s", expr->debug.data);
     if (expr->type == IMMEDIATE_NUM) {
         number_t *value = (number_t*)expr->expr;
-        log("eval: Immediate value %d", *value);
         return new_result(ok(), new_value(VALUE_TYPE_NUMBER, (void*)value));
     } else if (expr->type == IMMEDIATE_STR) {
         str_t *str = expr->expr;

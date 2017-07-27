@@ -1,3 +1,5 @@
+#include "core/log.h"
+
 #include "runtime/builtin.h"
 #include "runtime/exec.h"
 
@@ -17,14 +19,15 @@ result_t exec_builtin_funcall(runtime_t *runtime, funcall_t *funcall) {
         return builtin_print(runtime, funcall->args);
     }
 
-    return new_result(ok(), NULL);
+    return new_result(new_error(INTERPRETER_ERROR, "could not find builtin"), NULL);
 }
 
 result_t builtin_print(runtime_t *runtime, arglist_t *arglist) {
-    if (arglist->size < 1) {
+    if (arglist->size != 1) {
         return new_result(new_error(SCRIPT_ERROR, "Missing argument for print"), NULL);
     }
 
+    execlog("printing value");
     expr_t arg = arglist->args[0];
     result_t result = eval_expr(runtime, &arg);
 
@@ -37,5 +40,8 @@ result_t builtin_print(runtime_t *runtime, arglist_t *arglist) {
         return new_result(new_error(SCRIPT_ERROR, "Expected string value for print"), NULL);
     }
 
+    str_t *strval = (str_t*)value->data;
+    char* chardata = strval->data;
+    fprintf(stdout, chardata);
     return new_result(ok(), NULL);
 }

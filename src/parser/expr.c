@@ -57,6 +57,12 @@ expr_t  *new_immediate_num(number_t *number) {
     expr_t *ret = (expr_t*)malloc(sizeof(expr_t));
     ret->type = IMMEDIATE_NUM;
     ret->expr = (void*)number;
+
+    ret->debug.data = (char*)calloc(256, sizeof(char));
+    sprintf(ret->debug.data, "number<%d()>", *number);
+    ret->debug.length = strlen(ret->debug.data);
+
+    parselog("expr: %s", ret->debug.data);
     return ret;
 }
 
@@ -64,13 +70,21 @@ expr_t  *new_immediate_str(str_t str) {
     expr_t *ret = (expr_t*)malloc(sizeof(expr_t));
     ret->type = IMMEDIATE_STR;
     ret->expr = (void*)&str;
+    ret->debug.data = (char*)calloc(256, sizeof(char));
+    sprintf(ret->debug.data, "string<%s>", str.data);
+    ret->debug.length = strlen(ret->debug.data);
+    parselog("expr: %s", ret->debug.data);
     return ret;
 }
 
 expr_t  *new_direct_expr(var_t *var) {
     expr_t *ret = (expr_t*)malloc(sizeof(expr_t));
     ret->type = DIRECT;
-    ret->expr = (void*)&var;
+    ret->expr = (void*)var;
+    ret->debug.data = (char*)calloc(256, sizeof(char));
+    sprintf(ret->debug.data, "variable<%s>", var->name.data);
+    ret->debug.length = strlen(ret->debug.data);
+    parselog("expr: %s", ret->debug.data);
     return ret;
 
 }
@@ -79,6 +93,11 @@ expr_t  *new_funcall_expr(funcall_t *funcall) {
     expr_t *ret = (expr_t*)malloc(sizeof(expr_t));
     ret->type = FUNCALL;
     ret->expr = (void*)funcall;
+
+    ret->debug.data = (char*)calloc(256, sizeof(char));
+    sprintf(ret->debug.data, "funcall<%s()>", funcall->id->name.data);
+    ret->debug.length = strlen(ret->debug.data);
+    parselog("expr: %s", ret->debug.data);
     return ret;
 }
 

@@ -26,6 +26,7 @@ typedef enum {
 } expr_type_t;
 
 typedef struct {
+    str_t debug;
     expr_type_t type;
     void* expr;
 } expr_t;

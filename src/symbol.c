@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "core/hashtable.h"
 #include "core/log.h"
+#include "core/hashtable.h"
+
 #include "symbol.h"
 
 static const int INIT_SIZE = 128;
@@ -44,7 +45,8 @@ void put_symbol(symbtable_t *table, symbol_t *symbol) {
 }
 
 symbol_t *get_symbol(symbtable_t *table, str_t name) {
-    log("Looking up symbol %s", name.data);
+    assert(name.data != NULL);
+    execlog("Looking up symbol %s", name.data);
     stck_t *stack = table->stack;
     int index = stack->size - 1;
     while(index >= 0) {
